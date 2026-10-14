@@ -15,15 +15,28 @@
         <label for="where">Onde</label>
         <input id="where" type="text" placeholder="Buscar destinos" />
       </span>
-      <div></div>
+      <div class="line"></div>
       <span class="when">
         <label for="when">Quando</label>
         <input id="when" type="text" placeholder="Insira as datas" />
       </span>
-      <div></div>
+      <div class="line"></div>
       <span class="who">
         <label for="who">Quem</label>
         <input id="who" type="text" placeholder="Hóspedes?" />
+        <div class="dropdown-container">
+          <div>
+            <div>
+              <p>Adultos</p>
+              <p>13 ou mais</p>
+            </div>
+            <div>
+              <button class="counter-button">-</button>
+              <p>0</p>
+              <button class="counter-button">+</button>
+            </div>
+          </div>
+        </div>
       </span>
       <button>
         <i class="mdi mdi-magnify"></i>
@@ -60,12 +73,13 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding: 0.6rem;
   border-radius: 40px;
   background-color: #fafafa;
 
-  & div {
+  & .line {
     background-color: #a5a5a5;
     height: 25px;
     width: 1px;
@@ -111,5 +125,14 @@ button {
     font-size: 26px;
     color: #393939;
   }
+}
+
+.dropdown-container {
+    position: absolute;
+    z-index: 4;
+    background-color: #fafafa;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 1.5rem;
+    border-radius: 20px;
 }
 </style>
