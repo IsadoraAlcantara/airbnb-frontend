@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue"
+const showDropdown = ref(false)
+</script>
 <template>
   <header>
     <router-link to="/">
@@ -20,10 +23,10 @@
         <input id="when" type="text" placeholder="Insira as datas" />
       </span>
       <div class="line"></div>
-      <span class="who">
+      <span class="who" @click="showDropdown = true">
         <label for="who">Quem</label>
         <input id="who" type="text" placeholder="Hóspedes?" />
-        <ul class="dropdown-container">
+        <ul class="dropdown-container" v-if="showDropdown">
           <li>
             <span>
               <p>Adultos</p>

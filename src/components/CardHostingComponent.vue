@@ -1,18 +1,25 @@
 <script setup></script>
 <template>
   <div class="card-container">
-    <div class="img-container">
-      <i class="mdi mdi-heart-outline"></i>
-    </div>
-    <span>Apartamento - Bombinhas</span>
-    <p>16 - 18 out.</p>
-    <p>Total: R$562</p>
+    <router-link to="/hosting">
+      <div class="img-container">
+        <i class="mdi mdi-heart-outline"></i>
+      </div>
+      <span>Apartamento - Bombinhas</span>
+      <p>16 - 18 out.</p>
+      <p>Total: R$562</p>
+    </router-link>
   </div>
 </template>
 <style scoped>
 .card-container {
   width: 100%;
   font-size: 14px;
+
+  & a {
+    text-decoration: none;
+    color: black;
+  }
 
   & .img-container {
     background-image: url(https://a0.muscache.com/im/pictures/miso/Hosting-1170350495363782342/original/a11b13e5-26f2-4916-80bd-de4641d07ce2.jpeg?im_w=1200);
