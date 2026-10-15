@@ -5,8 +5,7 @@
       <h1>
         <img
           src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/3840px-Airbnb_Logo_B%C3%A9lo.svg.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-          alt="logo do airbnb"
-        />
+          alt="logo do airbnb" />
       </h1>
     </router-link>
 
@@ -24,19 +23,41 @@
       <span class="who">
         <label for="who">Quem</label>
         <input id="who" type="text" placeholder="Hóspedes?" />
-        <div class="dropdown-container">
-          <div>
-            <div>
+        <ul class="dropdown-container">
+          <li>
+            <span>
               <p>Adultos</p>
-              <p>13 ou mais</p>
-            </div>
+              <p>13 anos ou mais</p>
+            </span>
             <div>
               <button class="counter-button">-</button>
               <p>0</p>
               <button class="counter-button">+</button>
             </div>
-          </div>
-        </div>
+          </li>
+          <li>
+            <span>
+              <p>Crianças</p>
+              <p>De 2 a 12 anos</p>
+            </span>
+            <div>
+              <button class="counter-button">-</button>
+              <p>0</p>
+              <button class="counter-button">+</button>
+            </div>
+          </li>
+          <li>
+            <span>
+              <p>Bebês</p>
+              <p>Menor de 2</p>
+            </span>
+            <div>
+              <button class="counter-button">-</button>
+              <p>0</p>
+              <button class="counter-button">+</button>
+            </div>
+          </li>
+        </ul>
       </span>
       <button>
         <i class="mdi mdi-magnify"></i>
@@ -128,11 +149,56 @@ button {
 }
 
 .dropdown-container {
-    position: absolute;
-    z-index: 4;
-    background-color: #fafafa;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 1.5rem;
-    border-radius: 20px;
+  position: absolute;
+  z-index: 4;
+  top: 70px;
+  right: 0;
+  background-color: #fafafa;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 2.3rem;
+  border-radius: 20px;
+
+  & span {
+    margin: 0;
+    /* tirar ao fazer a componentização */
+  }
+
+  & span p:nth-child(2) {
+    color: #6c6c6c;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  & li {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 16px;
+    font-size: 16px;
+  }
+
+  & li:last-child {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  & div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+    & button {
+      background-color: #ececec;
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      color: #393939;
+    }
+  }
+
 }
 </style>
