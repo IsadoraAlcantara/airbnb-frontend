@@ -1,9 +1,18 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import HeaderComponent from '@/components/HeaderComponent.vue'
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <HeaderComponent />
+    <RouterView />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+div {
+  display: grid;
+  justify-items: center;
+}
+</style>
