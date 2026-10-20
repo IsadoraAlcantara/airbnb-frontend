@@ -87,6 +87,7 @@ header {
   justify-content: space-between;
   padding: 1rem 3rem;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 img {
