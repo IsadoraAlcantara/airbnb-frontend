@@ -127,7 +127,7 @@ span {
 }
 
 nav button {
-  background-color: #f5415f;
+  background-color: var(--rosa);
   border: none;
   width: 45px;
   height: 45px;
