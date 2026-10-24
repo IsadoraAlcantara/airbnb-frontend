@@ -85,22 +85,26 @@
             <p>Superhost - 2 anos hospedando</p>
           </div>
         </div>
-        <p class="hosting-summary">
-          Venha viver momentos inesquecíveis em Bombinhas! Com piscinas naturais, ideal para
-          mergulho de cilindro e snorkel, ótimas ondas para o surf, trilhas incríveis e uma
-          gastronomia de dar água na boca, esse paraíso é o destino perfeito. Hospede-se no Bromélia
-          106 e aproveite todo o conforto e charme em um lugar especial. Descubra Bombinhas e torne
-          suas férias ainda mais memoráveis no Bromélia 106!
-        </p>
+        <div class="hosting-summary">
+          <p>
+            Venha viver momentos inesquecíveis em Bombinhas! Com piscinas naturais, ideal para
+            mergulho de cilindro e snorkel, ótimas ondas para o surf, trilhas incríveis e uma
+            gastronomia de dar água na boca, esse paraíso é o destino perfeito. Hospede-se no
+            Bromélia 106 e aproveite todo o conforto e charme em um lugar especial. Descubra
+            Bombinhas e torne suas férias ainda mais memoráveis no Bromélia 106!
+          </p>
+          <button>Mostrar mais</button>
+        </div>
+
         <div class="bedroom-pictures-container">
-          <h2>Onde você vai dormir</h2>
+          <h3>Onde você vai dormir</h3>
           <div class="bedroom-pictures">
             <div>
               <img
                 src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/efba475d-8418-44a1-8281-a66a4e97b6c3.jpeg?im_w=480"
                 alt=""
               />
-              <h3>Quarto 1</h3>
+              <h4>Quarto 1</h4>
               <p>1 cama queen</p>
             </div>
             <div>
@@ -108,14 +112,48 @@
                 src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/efba475d-8418-44a1-8281-a66a4e97b6c3.jpeg?im_w=480"
                 alt=""
               />
-              <h3>Quarto 2</h3>
+              <h4>Quarto 2</h4>
               <p>1 cama queen</p>
             </div>
           </div>
         </div>
+
+        <div class="calendar">
+          <h3>Seleciona a data de check-in</h3>
+          <p>Estadia mínima: 2 noites</p>
+
+          <div>
+            <div>
+              <i class="mdi mdi-chevron-left"></i>
+              <p>outubro de 2026</p>
+              <i class="mdi mdi-chevron-right"></i>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>D</th>
+                  <th>S</th>
+                  <th>T</th>
+                  <th>Q</th>
+                  <th>Q</th>
+                  <th>S</th>
+                  <th>S</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="i in 6" :key="i">
+                  <th v-for="n in 7" :key="n">
+                    {{ i }}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
+
       <div class="booking-box">
-        <p>Adicione datas para ver os preços</p>
+        <h3>Adicione datas para ver os preços</h3>
         <div class="inputs">
           <div class="field checkin">
             <label for="checkin">CHECKIN</label>
@@ -130,24 +168,30 @@
             <input type="text" id="guests" />
           </div>
         </div>
-        <button>Conferir disponibilidade</button>
-        <p>Você ainda não será cobrado</p>
+        <div class="button-container">
+          <button>Conferir disponibilidade</button>
+          <p>Você ainda não será cobrado</p>
+        </div>
       </div>
     </section>
   </main>
 </template>
 <style scoped>
 main {
-  max-width: 1280px;
+  max-width: 1120px;
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
+
+  & h3 {
+    font-size: 22px;
+  }
 }
 
 section {
-  display: flex;
-  justify-content: space-between;
-  gap: 10vw;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 5vw;
 }
 
 .title {
@@ -229,7 +273,6 @@ section {
   margin: 32px 0;
 
   & h3 {
-    font-size: 1.4rem;
     margin-bottom: 6px;
   }
 
@@ -294,18 +337,29 @@ section {
 }
 
 .hosting-summary {
-  font-weight: 400;
   margin: 24px 0;
   padding: 32px 0;
   border-top: 1px solid #e2e0e0;
   border-bottom: 1px solid #e2e0e0;
+
+  & p {
+    font-weight: 400;
+  }
+
+  & button {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 16px;
+  }
 }
 
 .bedroom-pictures-container {
   padding: 24px 0 48px 0;
   border-bottom: 1px solid #e2e0e0;
 
-  & h2 {
+  & h3 {
     margin-bottom: 24px;
   }
 
@@ -313,7 +367,7 @@ section {
     display: flex;
     gap: 15px;
 
-    & h3 {
+    & h4 {
       font-size: 16px;
       margin: 10px 0 4px 0;
     }
@@ -340,6 +394,10 @@ section {
   border: 1px solid #e2e0e0;
   border-radius: 12px;
   padding: 20px;
+  height: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  position: sticky;
+  top: 20px;
 
   & .inputs {
     display: grid;
@@ -351,10 +409,13 @@ section {
       display: grid;
       font-size: 10px;
       padding: 10px;
+      width: fit-content;
 
       & input {
         border: none;
         outline: none;
+        width: 100%;
+        box-sizing: border-box;
       }
     }
 
@@ -367,18 +428,35 @@ section {
       border-bottom: 1px solid #8d8d8d;
     }
 
-    & .large-input {
+    & .guests {
       grid-column: span 2;
     }
   }
 
-  & button {
-    background-color: var(--rosa);
-    border: none;
-    color: white;
-    padding: 12px;
-    border-radius: 30px;
-    font-size: 16px;
+  & .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+
+    & button {
+      background-color: var(--rosa);
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 30px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    & p {
+      font-size: 14px;
+      color: #393939;
+    }
   }
+}
+
+.calendar {
+  margin: 48px 0;
 }
 </style>
