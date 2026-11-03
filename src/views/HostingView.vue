@@ -11,10 +11,8 @@ const props = defineProps({
 const hostingInfo = ref(null)
 
 onMounted(async () => {
-  console.log(props.id)
   const { data } = await api.get(`/acomodacoes/${props.id}/`)
   hostingInfo.value = data
-  console.log("a", hostingInfo.value)
 })
 </script>
 

@@ -1,6 +1,24 @@
 <script setup>
-import { ref } from "vue"
+import { ref, watch } from 'vue'
 const showDropdown = ref(false)
+const modal = ref(null)
+
+const clickOutside = (event) => {
+  if (!modal.value.contains(event.target)) {
+    showDropdown.value = false
+  }
+}
+
+watch(showDropdown, (newValue) => {
+  if (newValue) {
+    setTimeout(() => {
+      window.addEventListener('click', clickOutside)
+    }, 0)
+  }
+  else {
+    window.removeEventListener('click', clickOutside);
+  }
+})
 </script>
 <template>
   <header>
@@ -8,7 +26,8 @@ const showDropdown = ref(false)
       <h1>
         <img
           src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/3840px-Airbnb_Logo_B%C3%A9lo.svg.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-          alt="logo do airbnb" />
+          alt="logo do airbnb"
+        />
       </h1>
     </router-link>
 
@@ -23,7 +42,7 @@ const showDropdown = ref(false)
         <input id="when" type="text" placeholder="Insira as datas" />
       </span>
       <div class="line"></div>
-      <span class="who" @click="showDropdown = true">
+      <span class="who" ref="modal" @click="showDropdown = true">
         <label for="who">Quem</label>
         <input id="who" type="text" placeholder="Hóspedes?" />
         <ul class="dropdown-container" v-if="showDropdown">
@@ -203,6 +222,5 @@ button {
       color: #393939;
     }
   }
-
 }
 </style>

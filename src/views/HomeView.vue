@@ -14,7 +14,6 @@ onMounted(async () => {
   try {
     const data = await getHosting()
     hostingList.value = data.results
-    console.log(hostingList.value)
   } catch (error) {
     console.error('Erro ao buscar acomodações: ', error)
   }
