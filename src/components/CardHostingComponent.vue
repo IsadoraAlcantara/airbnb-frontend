@@ -1,13 +1,32 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  id: {
+    type: [Number, String],
+    required: true,
+  },
+  price: {
+    type: String,
+    required: true
+  },
+  hostingType: {
+    type: String,
+    required: true
+  },
+  localization: {
+    type: String,
+    required: true,
+  }
+})
+</script>
 <template>
   <div class="card-container">
-    <router-link to="/hosting">
+    <router-link :to="{ name: 'hosting', params: { id: id } }">
       <div class="img-container">
         <i class="mdi mdi-heart-outline"></i>
       </div>
-      <span>Apartamento - Bombinhas</span>
+      <span>{{ hostingType }} - {{ localization }}</span>
       <p>16 - 18 out.</p>
-      <p>Total: R$562</p>
+      <p>Total: R${{ price }}</p>
     </router-link>
   </div>
 </template>
@@ -15,6 +34,7 @@
 .card-container {
   width: 100%;
   font-size: 14px;
+  max-width: 300px;
 
   & a {
     text-decoration: none;

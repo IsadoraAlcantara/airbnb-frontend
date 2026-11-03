@@ -1,7 +1,27 @@
+<script setup>
+import { onMounted, ref } from 'vue'
+import api from "@/plugins/axios"
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+})
+const hostingInfo = ref(null)
+
+onMounted(async () => {
+  console.log(props.id)
+  const { data } = await api.get(`/acomodacoes/${props.id}/`)
+  hostingInfo.value = data
+  console.log("a", hostingInfo.value)
+})
+</script>
+
 <template>
-  <main>
+  <main v-if="hostingInfo">
     <div class="title">
-      <h2>Bromélia 106</h2>
+      <h2>{{ hostingInfo.titulo_acomodacao }}</h2>
       <div>
         <span>
           <i class="mdi mdi-tray-arrow-up"></i>
@@ -53,7 +73,7 @@
     <section>
       <div class="hosting-info-container">
         <div class="sub-title">
-          <h3>Espaço inteiro: condomínio em Bombinhas, Brasil</h3>
+          <h3>{{ hostingInfo.categoria_acomodacao}}: {{ hostingInfo.tipo_acomodacao}} em {{ hostingInfo.cidade }}, Brasil</h3>
           <p>4 hóspedes - 2 quartos - 2 camas - 2 banheiros</p>
         </div>
         <div class="guest-favorite-container">
@@ -81,7 +101,7 @@
             alt=""
           />
           <div>
-            <h4>Anfitriã(o): Simone</h4>
+            <h4>Anfitriã(o): {{ hostingInfo.proprietario.first_name}}</h4>
             <p>Superhost - 2 anos hospedando</p>
           </div>
         </div>
