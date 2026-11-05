@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getHosting } from '@/plugins/axios.js'
-import CardHostingComponent from '@/components/CardHostingComponent.vue'
+import { CardHostingComponent } from '@/components'
 
 // const fetchHosting = async () => {
 //   try
