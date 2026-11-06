@@ -1,3 +1,8 @@
 <template>
-    new hosting
+    <main class="wizard-content">
+      <router-view />
+    </main>
+    <div>
+        a
+    </div>
 </template>

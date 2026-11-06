@@ -19,14 +19,14 @@ const router = createRouter({
       name: 'new-hosting-form',
       component: () => import('../views/NewHostingFormView.vue'),
       children: [
-        { path: '', redirect: '/new-hosting-form/strutcture' },
+        { path: '', redirect: '/new-hosting-form/structure' },
         {
-          path: '/strutcture',
-          name: 'strutcture',
-          component: () => import('../components/NewHostingForm/CardStructureComponent.vue'),
+          path: 'structure',
+          name: 'structure',
+          component: () => import('../components/NewHostingForm/StructureComponent.vue'),
         },
         {
-          path: '/privacy-type',
+          path: 'privacy-type',
           name: 'privacy-type',
           component: () => import('../components/NewHostingForm/CardPrivacyTypeComponent.vue'),
         },
