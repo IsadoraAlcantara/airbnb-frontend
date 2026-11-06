@@ -6,29 +6,43 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/HomeView.vue'),
-    },
-    {
-      path: '/hosting/:id',
-      name: 'hosting',
-      component: () => import('../views/HostingView.vue'),
-      props: true,
+      component: () => import('../layouts/DefaultLayout.vue'),
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          component: () => import('../views/HomeView.vue'),
+        },
+        {
+          path: '/hosting/:id',
+          name: 'hosting',
+          component: () => import('../views/HostingView.vue'),
+          props: true,
+        },
+      ],
     },
     {
       path: '/new-hosting-form',
       name: 'new-hosting-form',
-      component: () => import('../views/NewHostingFormView.vue'),
+      component: () => import('../layouts/BlanckLayout.vue'),
       children: [
-        { path: '', redirect: '/new-hosting-form/structure' },
         {
-          path: 'structure',
-          name: 'structure',
-          component: () => import('../components/NewHostingForm/StructureComponent.vue'),
-        },
-        {
-          path: 'privacy-type',
-          name: 'privacy-type',
-          component: () => import('../components/NewHostingForm/CardPrivacyTypeComponent.vue'),
+          path: '/new-hosting-form',
+          name: 'new-hosting-form',
+          component: () => import('../views/NewHostingFormView.vue'),
+          children: [
+            { path: '', redirect: '/new-hosting-form/structure' },
+            {
+              path: 'structure',
+              name: 'structure',
+              component: () => import('../components/NewHostingForm/StructureComponent.vue'),
+            },
+            {
+              path: 'privacy-type',
+              name: 'privacy-type',
+              component: () => import('../components/NewHostingForm/CardPrivacyTypeComponent.vue'),
+            },
+          ],
         },
       ],
     },
