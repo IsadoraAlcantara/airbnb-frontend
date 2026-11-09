@@ -1,9 +1,15 @@
 <script setup>
-import { HeaderComponent } from '@/components';
+import { HeaderComponent } from '@/components'
 </script>
 <template>
-    <HeaderComponent />
-  <div>
-    <RouterView />
-  </div>
+  <HeaderComponent />
+  <main>
+    <slot />
+  </main>
 </template>
+<style scoped>
+/* main {
+  display: grid;
+  justify-items: center;
+} */
+</style>

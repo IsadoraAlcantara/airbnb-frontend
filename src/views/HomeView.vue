@@ -40,6 +40,6 @@ onMounted(async () => {
   box-sizing: border-box;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
-  justify-items: center;
+  /* justify-items: center; */
 }
 </style>
