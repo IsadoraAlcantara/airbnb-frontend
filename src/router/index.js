@@ -7,14 +7,14 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
-      meta: { layout: 'DefaultLayout' }
+      meta: { layout: 'DefaultLayout' },
     },
     {
       path: '/hosting/:id',
       name: 'hosting',
       component: () => import('../views/HostingView.vue'),
       props: true,
-      meta: { layout: 'DefaultLayout' }
+      meta: { layout: 'DefaultLayout' },
     },
     {
       path: '/new-hosting-form',
@@ -26,16 +26,22 @@ const router = createRouter({
         {
           path: 'structure',
           name: 'structure',
-          component: () => import('../components/NewHostingForm/StructureComponent.vue')
+          component: () => import('../components/NewHostingForm/StructureComponent.vue'),
         },
         {
           path: 'privacy-type',
           name: 'privacy-type',
-          component: () => import('../components/NewHostingForm/CardPrivacyTypeComponent.vue')
-        }
-      ]
-    }
-  ]
+          component: () => import('../components/NewHostingForm/CardPrivacyTypeComponent.vue'),
+        },
+      ],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+      meta: { layout: 'BlanckLayout' },
+    },
+  ],
 })
 
 export default router
