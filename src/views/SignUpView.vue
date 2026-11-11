@@ -8,7 +8,7 @@ const showPassword = ref(false)
     <div class="form-container">
       <form action="#">
         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111320.png" alt="logo do airbnb" />
-        <h1>Bem-vindo de volta</h1>
+        <h1>Seja bem-vindo</h1>
         <p>
           <input type="text" placeholder="Digite seu email" />
         </p>
@@ -25,8 +25,8 @@ const showPassword = ref(false)
         <p>
           <input type="text" placeholder="Digite seu primeiro nome" />
         </p>
-        <button>Entrar</button>
-        <p>Não possui uma conta? <router-link to="#">Cadatre-se</router-link></p>
+        <button>Criar conta</button>
+        <p>Já possui uma conta? <router-link to="/login">Entre</router-link></p>
       </form>
     </div>
     <div class="img-section"></div>

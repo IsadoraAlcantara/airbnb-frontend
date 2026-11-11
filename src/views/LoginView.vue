@@ -11,7 +11,7 @@
           <input type="text" placeholder="Digite sua senha" />
         </p>
         <button>Entrar</button>
-        <p>Não possui uma conta? <router-link to="#">Cadatre-se</router-link></p>
+        <p>Não possui uma conta? <router-link to="/sign-up">Cadatre-se</router-link></p>
       </form>
     </div>
     <div class="img-section"></div>
