@@ -12,7 +12,7 @@ import { CardStructureComponent } from '@/components';
 </template>
 <style scoped>
 h1 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 600;
     color: var(--black);
     max-width: 640px;

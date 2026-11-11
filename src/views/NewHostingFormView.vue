@@ -1,23 +1,3 @@
-<template>
-  <div class="wizard-container">
-    <!-- Barra de Progresso Compartilhada -->
-    <header class="wizard-header">
-      <progress :value="currentStep" max="2"></progress>
-    </header>
-
-    <!-- O componente da etapa atual será renderizado aqui -->
-    <main class="wizard-content">
-      <router-view />
-    </main>
-
-    <!-- Rodapé de Navegação Global -->
-    <footer class="wizard-footer">
-      <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
-      <button @click="nextStep">Avançar</button>
-    </footer>
-  </div>
-</template>
-
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -25,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const steps = ['step-1', 'step-2']
+const steps = ['step-1', 'step-2', 'step-3']
 
 const currentStep = computed(() => {
   const index = steps.indexOf(route.name)
@@ -46,3 +26,81 @@ const prevStep = () => {
   }
 }
 </script>
+
+<template>
+  <main>
+    <!-- Barra de Progresso Compartilhada -->
+    <header class="wizard-header">
+      <progress :value="currentStep" max="10"></progress>
+    </header>
+
+    <!-- O componente da etapa atual será renderizado aqui -->
+    <main class="wizard-content">
+      <router-view />
+    </main>
+
+    <!-- Rodapé de Navegação Global -->
+    <footer class="wizard-footer">
+      <progress :value="currentStep" max="10"></progress>
+      <div class="buttons-container">
+        <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
+        <button @click="nextStep">Avançar</button>
+      </div>
+    </footer>
+  </main>
+</template>
+
+<style scoped>
+main {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wizard-content {
+  margin-top: 45px;
+}
+
+.wizard-footer {
+  box-sizing: border-box;
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+
+  & .buttons-container {
+    display: flex;
+    justify-content: space-between;
+
+    & button:nth-child(2) {
+      background-color: #262626;
+      color: #F2F2F2;
+    }
+  }
+
+  & button {
+    margin: 10px 40px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+  }
+}
+
+progress {
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 7px;
+  background-color: #F2F2F2;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #F2F2F2;
+}
+
+progress::-webkit-progress-value {
+  background-color: #262626;
+}
+</style>

@@ -1,30 +1,39 @@
 <template>
-    <div class="card-structure-container">
-        <img src="https://www.svgrepo.com/show/509134/home.svg" alt="">
-        <p>Casa</p>
-    </div>
+  <button>
+    <img src="@/assets/icons/Casa.svg" alt="" />
+    <p>Casa</p>
+  </button>
 </template>
 <style scoped>
-.card-structure-container {
-    border: 1px solid #cacaca;
-    border-radius: 10px;
-    padding: 16px;
+button {
+  background-color: transparent;
+  text-align: left;
+  border: 1px solid #cacaca;
+  border-radius: 8px;
+  padding: 16px;
+  transition: 0.3ms ease-in;
+  cursor: pointer;
+  transition: transform 0.15s ease;
 
-    & i {
-        font-size: 35px;
-    }
+  & img {
+    width: 35px;
+  }
 
-    & img {
-        width: 30px;
-        margin-bottom: 4px;
-    }
+  & p {
+    font-size: 16px;
+  }
 }
 
-.card-structure-container:hover {
-    box-shadow: 0 0 0 2px var(--black);
+button:hover {
+  box-shadow: 0 0 0 2px #424242;
+  transition: 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.97 );
 }
 
 .focus {
-    box-shadow: 0 0 0 2px var(--black);
+  box-shadow: 0 0 0 2px #424242;
 }
 </style>
