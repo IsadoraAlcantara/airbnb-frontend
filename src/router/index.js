@@ -41,6 +41,12 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue'),
       meta: { layout: 'BlanckLayout' },
     },
+        {
+      path: '/sign-up',
+      name: 'sign-up',
+      component: () => import('../views/SignUpView.vue'),
+      meta: { layout: 'BlanckLayout' },
+    },
   ],
 })
 

@@ -35,7 +35,7 @@ main {
     text-align: center;
 }
 
-form p:nth-child(6) {
+form p:last-child {
     font-size: 14px;
     color: #575757;
     display: inline;
@@ -91,14 +91,9 @@ form {
       padding: 12px;
       background-color: transparent;
     }
-
-    & input::placeholder {
-      /* color: #fafafa; */
-    }
   }
 
   & button {
-    /* margin-top: 8px; */
     width: 100%;
     padding: 12px;
     font-size: 16px;
