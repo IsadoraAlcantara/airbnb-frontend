@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import api from "@/plugins/axios"
+import api from '@/plugins/axios'
 
 const props = defineProps({
   id: {
@@ -71,7 +71,10 @@ onMounted(async () => {
     <section>
       <div class="hosting-info-container">
         <div class="sub-title">
-          <h3>{{ hostingInfo.categoria_acomodacao}}: {{ hostingInfo.tipo_acomodacao}} em {{ hostingInfo.cidade }}, Brasil</h3>
+          <h3>
+            {{ hostingInfo.categoria_acomodacao }}: {{ hostingInfo.tipo_acomodacao }} em
+            {{ hostingInfo.cidade }}, Brasil
+          </h3>
           <p>4 hóspedes - 2 quartos - 2 camas - 2 banheiros</p>
         </div>
         <div class="guest-favorite-container">
@@ -99,7 +102,7 @@ onMounted(async () => {
             alt=""
           />
           <div>
-            <h4>Anfitriã(o): {{ hostingInfo.proprietario.first_name}}</h4>
+            <h4>Anfitriã(o): {{ hostingInfo.proprietario.first_name }}</h4>
             <p>Superhost - 2 anos hospedando</p>
           </div>
         </div>
@@ -458,7 +461,7 @@ section {
     gap: 14px;
 
     & button {
-      background-color: var(--rosa);
+      background-color: var(--pink);
       border: none;
       color: white;
       padding: 12px;

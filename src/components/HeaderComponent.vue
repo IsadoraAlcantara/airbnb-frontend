@@ -14,9 +14,8 @@ watch(showDropdown, (newValue) => {
     setTimeout(() => {
       window.addEventListener('click', clickOutside)
     }, 0)
-  }
-  else {
-    window.removeEventListener('click', clickOutside);
+  } else {
+    window.removeEventListener('click', clickOutside)
   }
 })
 </script>
@@ -146,7 +145,7 @@ span {
 }
 
 nav button {
-  background-color: var(--rosa);
+  background-color: var(--pink);
   border: none;
   width: 45px;
   height: 45px;

@@ -21,10 +21,10 @@
 }
 
 .card-structure-container:hover {
-    border: 2px solid var(--black);
+    box-shadow: 0 0 0 2px var(--black);
 }
 
 .focus {
-    border: 2px solid var(--black);
+    box-shadow: 0 0 0 2px var(--black);
 }
 </style>
