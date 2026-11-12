@@ -38,6 +38,11 @@ const router = createRouter({
           name: 'location',
           component: () => import('../components/NewHostingForm/LocationComponent.vue'),
         },
+        {
+          path: 'floor-plan',
+          name: 'floor-plan',
+          component: () => import('../components/NewHostingForm/FloorPlanComponent.vue'),
+        },
       ],
     },
     {

@@ -3,7 +3,7 @@
 <template>
     <main>
         <h1>Confirme seu endereço</h1>
-        <p class="info">Seu endereço só é compartilhado com os hóspedes depois que a reserva é confirmada.</p>
+        <p class="sub-title">Seu endereço só é compartilhado com os hóspedes depois que a reserva é confirmada.</p>
         <div class="inputs-container">
             <p>
                 <label for="endereco">Endereço</label>
@@ -45,10 +45,11 @@ h1 {
     margin: 35px 0 15px 0;
 }
 
-.info {
+.sub-title {
     color: #424242e1;
     font-weight: 400;
-    margin-bottom: 20px;
+    font-size: 18px;
+    margin-bottom: 26px;
 }
 
 .inputs-container {
