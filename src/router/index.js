@@ -33,6 +33,11 @@ const router = createRouter({
           name: 'privacy-type',
           component: () => import('../components/NewHostingForm/PrivacyTypeComponent.vue'),
         },
+        {
+          path: 'location',
+          name: 'location',
+          component: () => import('../components/NewHostingForm/LocationComponent.vue'),
+        },
       ],
     },
     {
@@ -41,7 +46,7 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue'),
       meta: { layout: 'BlanckLayout' },
     },
-        {
+    {
       path: '/sign-up',
       name: 'sign-up',
       component: () => import('../views/SignUpView.vue'),

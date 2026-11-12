@@ -80,10 +80,6 @@ form {
     width: 100%;
     color: var(--black);
 
-    & label {
-      font-size: 14px;
-    }
-
     & input {
       border-radius: 10px;
       border: 1px solid #9c9c9c;
