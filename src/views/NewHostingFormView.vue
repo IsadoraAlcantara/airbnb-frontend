@@ -40,19 +40,18 @@ const prevStep = () => {
     </main>
 
     <!-- Rodapé de Navegação Global -->
-    <footer class="wizard-footer">
-      <progress :value="currentStep" max="10"></progress>
-      <div class="buttons-container">
-        <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
-        <button @click="nextStep">Avançar</button>
-      </div>
-    </footer>
   </main>
+  <footer class="wizard-footer">
+    <progress :value="currentStep" max="10"></progress>
+    <div class="buttons-container">
+      <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
+      <button @click="nextStep">Avançar</button>
+    </div>
+  </footer>
 </template>
 
 <style scoped>
 main {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,8 +64,10 @@ main {
 .wizard-footer {
   box-sizing: border-box;
   width: 100vw;
-  position: absolute;
+  position: fixed;
   bottom: 0;
+  box-sizing: border-box;
+  background-color: white;
 
   & .buttons-container {
     display: flex;
@@ -74,7 +75,7 @@ main {
 
     & button:nth-child(2) {
       background-color: #262626;
-      color: #F2F2F2;
+      color: #f2f2f2;
     }
   }
 
@@ -93,11 +94,11 @@ progress {
   appearance: none;
   width: 100%;
   height: 7px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 progress::-webkit-progress-bar {
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 progress::-webkit-progress-value {

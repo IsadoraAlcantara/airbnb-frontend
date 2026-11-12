@@ -4,7 +4,7 @@
         <p class="sub-title">Você precisa de cinco fotos para começar. Você pode adicionar outra imagens ou fazer
             alterações mais tarde.</p>
         <div class="photo-input">
-            <img src="" alt="">
+            <img src="../../assets/icons/camera-imagem.avif" alt="a">
             <button>Adicionar</button>
         </div>
     </main>
@@ -13,6 +13,7 @@
 main {
     width: 640px;
     text-align: left;
+    /* margin-bottom: 70px; */
 }
 
 h1 {
@@ -32,23 +33,28 @@ h1 {
 }
 
 .photo-input {
-    border: 1px dashed var(--black);
-    display: grid;
+    border: 1px dashed #424242e1;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 7/6;
     border-radius: 14px;
 
     & button {
-        background-color: #262626;
+        background-color: var(--black);
         color: #F2F2F2;
-        margin: 10px 40px;
+        margin: 30px;
         padding: 12px 28px;
         border: none;
         border-radius: 10px;
         font-weight: 600;
         font-size: 14px;
+    }
+
+    & img {
+        width: 100px;
     }
 }
 </style>
