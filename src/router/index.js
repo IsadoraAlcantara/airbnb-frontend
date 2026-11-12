@@ -31,7 +31,7 @@ const router = createRouter({
         {
           path: 'privacy-type',
           name: 'privacy-type',
-          component: () => import('../components/NewHostingForm/CardPrivacyTypeComponent.vue'),
+          component: () => import('../components/NewHostingForm/PrivacyTypeComponent.vue'),
         },
       ],
     },
