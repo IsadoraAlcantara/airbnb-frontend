@@ -43,6 +43,11 @@ const router = createRouter({
           name: 'floor-plan',
           component: () => import('../components/NewHostingForm/FloorPlanComponent.vue'),
         },
+        {
+          path: 'photos',
+          name: 'photos',
+          component: () => import('../components/NewHostingForm/PhotosComponent.vue'),
+        },
       ],
     },
     {
