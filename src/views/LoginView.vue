@@ -1,16 +1,48 @@
+<script setup>
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
+
+const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
+
+const username = ref('')
+const password = ref('')
+const errorMessage = ref('')
+const showPassword = ref(false)
+
+const handleLogin = async () => {
+  try {
+    await authStore.login(username.value, password.value)
+    const destino = route.query.redirect || '/'
+    router.push(destino)
+  } catch (error) {
+    errorMessage.value = 'Usuário ou senha inválidos.'
+  }
+}
+</script>
 <template>
   <main>
     <div class="form-container">
-      <form action="#">
+      <form @submit.prevent="handleLogin">
         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111320.png" alt="logo do airbnb" />
         <h1>Bem-vindo de volta</h1>
         <p>
-          <input type="text" placeholder="Digite seu email" />
+          <input v-model="username" type="text" placeholder="Digite seu nome de usuário" required />
         </p>
-        <p>
-          <input type="text" placeholder="Digite sua senha" />
+        <p class="password-input">
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Digite sua senha"
+          />
+          <i
+            @click="showPassword = !showPassword"
+            :class="showPassword ? 'mdi mdi-eye-outline' : 'mdi mdi-eye-off-outline'"
+          ></i>
         </p>
-        <button>Entrar</button>
+        <button type="submit">Entrar</button>
         <p>Não possui uma conta? <router-link to="/sign-up">Cadatre-se</router-link></p>
       </form>
     </div>
@@ -29,21 +61,21 @@ main {
 }
 
 .form-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 form p:last-child {
-    font-size: 14px;
-    color: #575757;
-    display: inline;
+  font-size: 14px;
+  color: #575757;
+  display: inline;
 
-    & a {
-        text-decoration: none;
-        color: var(--pink);
-    }
+  & a {
+    text-decoration: none;
+    color: var(--pink);
+  }
 }
 
 .img-section {
@@ -86,6 +118,24 @@ form {
       outline: none;
       padding: 12px;
       background-color: transparent;
+    }
+  }
+
+  .password-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    border: 1px solid #9c9c9c;
+
+    & input {
+      border: none;
+      width: 100%;
+    }
+
+    & i {
+      margin-right: 12px;
     }
   }
 

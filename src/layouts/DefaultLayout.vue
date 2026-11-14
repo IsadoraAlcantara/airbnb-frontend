@@ -8,8 +8,8 @@ import { HeaderComponent } from '@/components'
   </main>
 </template>
 <style scoped>
-/* main {
+main {
   display: grid;
   justify-items: center;
-} */
+}
 </style>

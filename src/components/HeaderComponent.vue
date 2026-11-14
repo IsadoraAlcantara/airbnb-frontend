@@ -1,5 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import router from '@/router'
+
+const authStore = useAuthStore()
+
+// Mostrar dropdown de busca
 const showDropdown = ref(false)
 const modal = ref(null)
 
@@ -16,6 +22,26 @@ watch(showDropdown, (newValue) => {
     }, 0)
   } else {
     window.removeEventListener('click', clickOutside)
+  }
+})
+
+// Mostrar dropdown de login
+const showDropdownAuth = ref(false)
+const modalAuth = ref(null)
+
+const clickOutsideAuth = (event) => {
+  if (!modalAuth.value.contains(event.target)) {
+    showDropdownAuth.value = false
+  }
+}
+
+watch(showDropdownAuth, (newValue) => {
+  if (newValue) {
+    setTimeout(() => {
+      window.addEventListener('click', clickOutsideAuth)
+    }, 0)
+  } else {
+    window.removeEventListener('click', clickOutsideAuth)
   }
 })
 </script>
@@ -84,10 +110,14 @@ watch(showDropdown, (newValue) => {
         <i class="mdi mdi-magnify"></i>
       </button>
     </nav>
-
-    <button>
-      <i class="mdi mdi-account-outline"></i>
-    </button>
+    <p v-if="authStore.isAuthenticated">logado</p>
+    <div class="dropdown-auth-container">
+      <button @click="showDropdownAuth = !showDropdownAuth" ref="modalAuth">
+        <i class="mdi mdi-account-outline"></i>
+      </button>
+      <div v-if="showDropdownAuth && authStore.isAuthenticated" @click="authStore.logout">Sair</div>
+      <router-link v-if="showDropdownAuth && !authStore.isAuthenticated" to="/login">Entrar</router-link>
+    </div>
   </header>
 </template>
 <style scoped>
@@ -220,6 +250,22 @@ button {
       font-size: 20px;
       color: #393939;
     }
+  }
+}
+
+.dropdown-auth-container {
+  position: relative;
+
+  & div, a {
+    text-decoration: none;
+    color: var(--black);
+    position: absolute;
+    top: 50px;
+    right: -4px;
+    padding: 10px 16px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
 }
 </style>

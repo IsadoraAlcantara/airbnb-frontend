@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import api from '@/plugins/axios'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+// import api from '@/plugins/axios'
+import api from '@/api/axios'
 
 const props = defineProps({
   id: {
@@ -8,12 +11,41 @@ const props = defineProps({
     required: true,
   },
 })
+
+const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+
 const hostingInfo = ref(null)
+const checkIn = ref('')
+const checkOut = ref('')
 
 onMounted(async () => {
   const { data } = await api.get(`/acomodacoes/${props.id}/`)
   hostingInfo.value = data
 })
+
+const handleBooking = async () => {
+  if (!authStore.isAuthenticated) {
+    console.log("nao esta logado")
+    router.push({
+      name: 'login',
+      query: { redirect: route.fullPath },
+    })
+    return
+  }
+
+  try {
+    await api.post('reservas/', {
+      acomodacao: props.id,
+      data_inicio: checkIn.value,
+      data_fim: checkOut.value,
+    })
+    alert('Reserva confirmada com sucesso!')
+  } catch (error) {
+    alert('Erro ao realizar reserva. Verifique as datas.')
+  }
+}
 </script>
 
 <template>
@@ -173,7 +205,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="booking-box">
+      <!-- <div class="booking-box">
         <h3>Adicione datas para ver os preços</h3>
         <div class="inputs">
           <div class="field checkin">
@@ -193,7 +225,28 @@ onMounted(async () => {
           <button>Conferir disponibilidade</button>
           <p>Você ainda não será cobrado</p>
         </div>
-      </div>
+      </div> -->
+      <form class="booking-box" @submit.prevent="handleBooking">
+        <h3>Adicione datas para ver os preços</h3>
+        <div class="inputs">
+          <div class="field checkin">
+            <label for="checkin">CHECKIN</label>
+            <input v-model="checkIn" type="date" id="checkin" placeholder="Adicionar data" required />
+          </div>
+          <div class="field checkout">
+            <label for="checkout">CHECKOUT</label>
+            <input v-model="checkOut" type="date" id="checkout" placeholder="Adicionar data" required />
+          </div>
+          <div class="field guests">
+            <label for="guests">HÓSPEDES</label>
+            <input type="text" id="guests" required />
+          </div>
+        </div>
+        <div class="button-container">
+          <button type="submit">Reservar</button>
+          <p>Você ainda não será cobrado</p>
+        </div>
+      </form>
     </section>
   </main>
 </template>
