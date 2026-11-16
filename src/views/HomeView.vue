@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { CardHostingComponent } from '@/components'
 import { getHosting } from '@/plugins/axios.js' // CENTRALIZAR A CONSULTA NA API
 import api from '@/api/axios.js'
+// import Teste from '@/components/teste.vue'
 
 const route = useRoute()
 const loading = ref(false)
@@ -47,6 +48,7 @@ watch(() => route.query, fetchResults, { immediate: true, deep: true })
 </script>
 
 <template>
+  <Teste />
   <p v-if="hostingList.length == 0">Sem resultados para essa busca</p>
   <div class="cards-section">
     <CardHostingComponent
