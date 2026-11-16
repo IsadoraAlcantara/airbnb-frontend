@@ -1,8 +1,57 @@
+div
 <script setup>
-import { ref, watch } from 'vue'
+import { reactive, watch, computed, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import api from '@/api/axios'
+
+const router = useRouter()
+const route = useRoute()
 
 const showDropdown = ref(false)
 const modal = ref(null)
+const who = ref(0)
+const whoText = computed(() => {
+  if (who.value == 0) return 'Hóspedes?'
+  return who.value == 1 ? '1 hóspede' : `${who.value} hóspedes`
+})
+
+const aumentaContador = () => {
+  who.value++
+}
+
+const diminuiContador = () => {
+  if (who.value > 0) {
+    who.value--
+  }
+}
+
+const form = reactive({
+  search: route.query.search || '',
+  // categoria: route.query.categoria || '',
+  // status: route.query.status || ''
+})
+
+const handleSearch = () => {
+  // Monta a query apenas com os campos preenchidos
+  const query = {}
+  if (form.search.trim()) query.search = form.search.trim()
+  // if (form.categoria) query.categoria = form.categoria
+  // if (form.status) query.status = form.status
+
+  router.push({
+    name: 'home',
+    query
+  })
+}
+
+watch(
+  () => route.query,
+  (newQuery) => {
+    form.search = newQuery.search || ''
+    // form.categoria = newQuery.categoria || ''
+    // form.status = newQuery.status || ''
+  }
+)
 
 const clickOutside = (event) => {
   if (!modal.value.contains(event.target)) {
@@ -21,10 +70,10 @@ watch(showDropdown, (newValue) => {
 })
 </script>
 <template>
-  <nav>
+  <form role="search" @submit.prevent="handleSearch">
     <span class="where">
       <label for="where">Onde</label>
-      <input id="where" type="text" placeholder="Buscar destinos" />
+      <input v-model="form.search" id="where" type="text" placeholder="Buscar destinos" />
     </span>
     <div class="line"></div>
     <span class="when">
@@ -33,8 +82,10 @@ watch(showDropdown, (newValue) => {
     </span>
     <div class="line"></div>
     <span class="who" ref="modal" @click="showDropdown = true">
-      <label for="who">Quem</label>
-      <input id="who" type="text" placeholder="Hóspedes?" />
+      <label>Quem</label>
+      <div class="input-who" :class="{ 'has-guests': who > 0 }">
+        {{ whoText }}
+      </div>
       <ul class="dropdown-container" v-if="showDropdown">
         <li>
           <span>
@@ -42,12 +93,12 @@ watch(showDropdown, (newValue) => {
             <p>13 anos ou mais</p>
           </span>
           <div>
-            <button class="counter-button">-</button>
-            <p>0</p>
-            <button class="counter-button">+</button>
+            <button @click="diminuiContador" class="counter-button">-</button>
+            <p>{{ who }}</p>
+            <button @click="aumentaContador" class="counter-button">+</button>
           </div>
         </li>
-        <li>
+        <!-- <li>
           <span>
             <p>Crianças</p>
             <p>De 2 a 12 anos</p>
@@ -68,16 +119,16 @@ watch(showDropdown, (newValue) => {
             <p>0</p>
             <button class="counter-button">+</button>
           </div>
-        </li>
+        </li> -->
       </ul>
     </span>
-    <button>
+    <button type="sumbit">
       <i class="mdi mdi-magnify"></i>
     </button>
-  </nav>
+  </form>
 </template>
 <style scoped>
-nav {
+form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,6 +151,7 @@ span {
 
   & label {
     font-size: 12px;
+    margin-bottom: 4px;
   }
 
   & input {
@@ -107,9 +159,20 @@ span {
     border: none;
     outline: none;
   }
+
+  & .input-who {
+    font-size: 13px;
+    width: 160px;
+    color: gray;
+  }
+
+  & .has-guests {
+    color: var(--black);
+    /* font-weight: 600; */
+  }
 }
 
-nav button {
+button {
   background-color: var(--pink);
   border: none;
   width: 45px;
