@@ -4,31 +4,10 @@ import { useRoute } from 'vue-router'
 import { CardHostingComponent } from '@/components'
 import { getHosting } from '@/plugins/axios.js' // CENTRALIZAR A CONSULTA NA API
 import api from '@/api/axios.js'
-// import Teste from '@/components/teste.vue'
 
 const route = useRoute()
 const loading = ref(false)
 const hostingList = ref([])
-
-// onMounted(async () => {
-//   try {
-//     const { data } = await getHosting()
-//     hostingList.value = data.results
-//   } catch (error) {
-//     console.error('Erro ao buscar acomodações: ', error)
-//   }
-//   console.log(hostingList.value)
-// })
-
-// const fetchResults = async () => {
-//   loading.value = true
-//   try {
-//     const { data } = await api.get('/acomodacoes/', { params: route.query })
-//     hostingList.value = data.results
-//   } finally {
-//     loading.value = false
-//   }
-// }
 
 const fetchResults = async () => {
   loading.value = true
