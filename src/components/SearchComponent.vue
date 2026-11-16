@@ -9,7 +9,7 @@ const route = useRoute()
 
 const showDropdown = ref(false)
 const modal = ref(null)
-const who = ref(0)
+const who = ref(Number(route.query.qtd_max_hospedes) || 0)
 const whoText = computed(() => {
   if (who.value == 0) return 'Hóspedes?'
   return who.value == 1 ? '1 hóspede' : `${who.value} hóspedes`
@@ -27,7 +27,7 @@ const diminuiContador = () => {
 
 const form = reactive({
   search: route.query.search || '',
-  // categoria: route.query.categoria || '',
+  // qtd_max_hospedes: route.query.qtd_max_hospedes || '',
   // status: route.query.status || ''
 })
 
@@ -35,7 +35,7 @@ const handleSearch = () => {
   // Monta a query apenas com os campos preenchidos
   const query = {}
   if (form.search.trim()) query.search = form.search.trim()
-  // if (form.categoria) query.categoria = form.categoria
+  if (who.value > 0) query.qtd_max_hospedes = who.value
   // if (form.status) query.status = form.status
 
   router.push({
@@ -48,7 +48,7 @@ watch(
   () => route.query,
   (newQuery) => {
     form.search = newQuery.search || ''
-    // form.categoria = newQuery.categoria || ''
+    who.value = Number(newQuery.qtd_max_hospedes) || 0
     // form.status = newQuery.status || ''
   }
 )
@@ -93,9 +93,9 @@ watch(showDropdown, (newValue) => {
             <p>13 anos ou mais</p>
           </span>
           <div>
-            <button @click="diminuiContador" class="counter-button">-</button>
+            <button type="button" @click="diminuiContador" class="counter-button">-</button>
             <p>{{ who }}</p>
-            <button @click="aumentaContador" class="counter-button">+</button>
+            <button type="button" @click="aumentaContador" class="counter-button">+</button>
           </div>
         </li>
         <!-- <li>
