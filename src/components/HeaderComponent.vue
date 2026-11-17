@@ -1,9 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { SearchComponent } from '@/components'
 
 const authStore = useAuthStore()
+const router = useRouter()
 
 const showDropdownAuth = ref(false)
 const modalAuth = ref(null)
@@ -23,6 +25,19 @@ watch(showDropdownAuth, (newValue) => {
     window.removeEventListener('click', clickOutsideAuth)
   }
 })
+
+const changeService = () => {
+  if (!authStore.isAuthenticated) {
+    router.push({
+      name: 'login',
+      query: { redirect: '/new-hosting-form' },
+    })
+  } else {
+    router.push({
+      name: 'new-hosting-form',
+    })
+  }
+}
 </script>
 <template>
   <header>
@@ -36,12 +51,14 @@ watch(showDropdownAuth, (newValue) => {
     </router-link>
     <SearchComponent />
     <div class="dropdown-auth-container">
-      <button class="type-service">Vou hospedar</button>
+      <button class="type-service" @click="changeService">Vou hospedar</button>
       <button @click="showDropdownAuth = !showDropdownAuth" ref="modalAuth">
         <i class="mdi mdi-account-outline"></i>
       </button>
       <div v-if="showDropdownAuth && authStore.isAuthenticated" @click="authStore.logout">Sair</div>
-      <router-link v-if="showDropdownAuth && !authStore.isAuthenticated" to="/login">Entrar</router-link>
+      <router-link v-if="showDropdownAuth && !authStore.isAuthenticated" to="/login"
+        >Entrar</router-link
+      >
     </div>
   </header>
 </template>
@@ -94,7 +111,8 @@ button {
     padding: 10px 16px;
   }
 
-  & div, a {
+  & div,
+  a {
     text-decoration: none;
     color: var(--black);
     position: absolute;
@@ -103,7 +121,9 @@ button {
     padding: 10px 16px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    box-shadow:
+      rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
 }
 </style>

@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const steps = ['step-1', 'step-2', 'step-3']
+const steps = ['structure', 'privacy-type', 'location', 'floor-plan', 'photos']
 
 const currentStep = computed(() => {
   const index = steps.indexOf(route.name)
@@ -17,6 +17,7 @@ const nextStep = () => {
   if (currentIndex < steps.length - 1) {
     router.push({ name: steps[currentIndex + 1] })
   }
+  console.log("next")
 }
 
 const prevStep = () => {

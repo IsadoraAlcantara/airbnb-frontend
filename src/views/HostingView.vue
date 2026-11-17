@@ -27,7 +27,6 @@ onMounted(async () => {
 
 const handleBooking = async () => {
   if (!authStore.isAuthenticated) {
-    console.log("nao esta logado")
     router.push({
       name: 'login',
       query: { redirect: route.fullPath },
@@ -205,27 +204,6 @@ const handleBooking = async () => {
         </div>
       </div>
 
-      <!-- <div class="booking-box">
-        <h3>Adicione datas para ver os preços</h3>
-        <div class="inputs">
-          <div class="field checkin">
-            <label for="checkin">CHECKIN</label>
-            <input type="text" id="checkin" placeholder="Adicionar data" />
-          </div>
-          <div class="field checkout">
-            <label for="checkout">CHECKOUT</label>
-            <input type="text" id="checkout" placeholder="Adicionar data" />
-          </div>
-          <div class="field guests">
-            <label for="guests">HÓSPEDES</label>
-            <input type="text" id="guests" />
-          </div>
-        </div>
-        <div class="button-container">
-          <button>Conferir disponibilidade</button>
-          <p>Você ainda não será cobrado</p>
-        </div>
-      </div> -->
       <form class="booking-box" @submit.prevent="handleBooking">
         <h3>Adicione datas para ver os preços</h3>
         <div class="inputs">
