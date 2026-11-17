@@ -12,7 +12,6 @@ button {
   border-radius: 8px;
   padding: 16px;
   transition: 0.3ms ease-in;
-  cursor: pointer;
   transition: transform 0.15s ease;
 
   & img {

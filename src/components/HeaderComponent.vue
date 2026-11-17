@@ -1,12 +1,10 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-// import router from '@/router'
 import { SearchComponent } from '@/components'
 
 const authStore = useAuthStore()
 
-// Mostrar dropdown de login
 const showDropdownAuth = ref(false)
 const modalAuth = ref(null)
 
@@ -38,6 +36,7 @@ watch(showDropdownAuth, (newValue) => {
     </router-link>
     <SearchComponent />
     <div class="dropdown-auth-container">
+      <button class="type-service">Vou hospedar</button>
       <button @click="showDropdownAuth = !showDropdownAuth" ref="modalAuth">
         <i class="mdi mdi-account-outline"></i>
       </button>
@@ -49,7 +48,7 @@ watch(showDropdownAuth, (newValue) => {
 <style scoped>
 header {
   width: 100%;
-  background-color: #f3f3f3;
+  background-color: #f5f5f5;
   box-shadow:
     rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -69,7 +68,7 @@ img {
 }
 
 button {
-  background-color: #dbdbdb;
+  background-color: #e9e7e7;
   border: none;
   width: 40px;
   height: 40px;
@@ -82,7 +81,18 @@ button {
 }
 
 .dropdown-auth-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   position: relative;
+
+  & .type-service {
+    font-size: 14px;
+    font-weight: 500;
+    width: fit-content;
+    border-radius: 10px;
+    padding: 10px 16px;
+  }
 
   & div, a {
     text-decoration: none;

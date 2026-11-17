@@ -32,7 +32,6 @@ button {
   border-radius: 16px;
   width: 100%;
   padding: 26px;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
 
