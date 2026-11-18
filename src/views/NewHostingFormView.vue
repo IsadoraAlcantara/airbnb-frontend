@@ -32,7 +32,7 @@ const prevStep = () => {
   <main>
     <!-- Barra de Progresso Compartilhada -->
     <header class="wizard-header">
-      <progress :value="currentStep" max="10"></progress>
+      <progress :value="currentStep" :max="steps.length"></progress>
     </header>
 
     <!-- O componente da etapa atual será renderizado aqui -->

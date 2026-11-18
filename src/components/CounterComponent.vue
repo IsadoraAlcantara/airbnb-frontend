@@ -2,10 +2,10 @@
 import { onMounted } from 'vue'
 
 const props = defineProps({
-    min: {
-        type: Number,
-        default: 0,
-    },
+  min: {
+    type: Number,
+    default: 0,
+  },
 })
 
 const valor = defineModel({ type: Number, default: 0 })
@@ -28,7 +28,7 @@ const diminuiContador = () => {
 </script>
 <template>
   <div class="counter-container">
-    <button type="button" @click="diminuiContador" class="counter-button">-</button>
+    <button type="button" @click="diminuiContador" class="counter-button" :disabled="valor <= props.min">-</button>
     <p>{{ valor }}</p>
     <button type="button" @click="aumentaContador" class="counter-button">+</button>
   </div>
@@ -50,5 +50,16 @@ const diminuiContador = () => {
     font-size: 20px;
     color: #393939;
   }
+
+  & p {
+    font-weight: 400;
+    width: 20px;
+    text-align: center;
+  }
+}
+
+.counter-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 </style>
