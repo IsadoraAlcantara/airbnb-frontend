@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { CardHostingComponent } from '@/components'
+import { CardHostingComponent, CounterComponent } from '@/components'
 import { getHosting } from '@/plugins/axios.js' // CENTRALIZAR A CONSULTA NA API
 import api from '@/api/axios.js'
 
@@ -27,7 +27,6 @@ watch(() => route.query, fetchResults, { immediate: true, deep: true })
 </script>
 
 <template>
-  <Teste />
   <p v-if="hostingList.length == 0">Sem resultados para essa busca</p>
   <div class="cards-section">
     <CardHostingComponent

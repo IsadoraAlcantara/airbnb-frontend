@@ -2,6 +2,7 @@ div
 <script setup>
 import { reactive, watch, computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { CounterComponent } from '@/components'
 import api from '@/api/axios'
 
 const router = useRouter()
@@ -18,16 +19,6 @@ const whoText = computed(() => {
   if (who.value == 0) return 'Hóspedes?'
   return who.value == 1 ? '1 hóspede' : `${who.value} hóspedes`
 })
-
-const aumentaContador = () => {
-  who.value++
-}
-
-const diminuiContador = () => {
-  if (who.value > 0) {
-    who.value--
-  }
-}
 
 const dateRange = ref({
   start: route.query.check_in ? new Date(`${route.query.check_in}T00:00:00`) : null,
@@ -150,11 +141,7 @@ watch([showDateDropdown, showGuestsDropdown], ([newValueDate, newValueGuests]) =
             <p>Adultos</p>
             <p>13 anos ou mais</p>
           </span>
-          <div>
-            <button type="button" @click="diminuiContador" class="counter-button">-</button>
-            <p>{{ who }}</p>
-            <button type="button" @click="aumentaContador" class="counter-button">+</button>
-          </div>
+          <CounterComponent v-model="who" />
         </li>
       </ul>
     </span>
@@ -261,11 +248,6 @@ span.where {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding: 2.3rem;
   border-radius: 20px;
-
-  & span {
-    margin: 0;
-    /* tirar ao fazer a componentização */
-  }
 
   & span p:nth-child(2) {
     color: #6c6c6c;
