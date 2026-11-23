@@ -24,6 +24,8 @@ onMounted(async () => {
 const handleNext = async () => {
   if (currentStep.value === 1 && !formStore.draftId) {
     await formStore.createEmptyHosting()
+  } else {
+    await formStore.atualizarRascunho()
   }
 
   nextStep()

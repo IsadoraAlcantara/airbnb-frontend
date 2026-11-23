@@ -2,9 +2,11 @@
 defineProps({
   text: {
     type: String,
-    requires: true,
+    required: true,
   },
 })
+
+const model = defineModel({ type: String })
 
 const getIconUrl = (text) => {
   return new URL(`../../assets/icons/${text}.svg`, import.meta.url).href
@@ -12,7 +14,12 @@ const getIconUrl = (text) => {
 </script>
 <template>
   <label class="card-option">
-    <input type="radio" name="tipo_espaco" :value="text" />
+    <input
+      type="radio"
+      name="tipo_espaco"
+      :value="text"
+      v-model="model"
+    />
     <div class="conteudo">
       <img :src="getIconUrl(text)" alt="" />
       <span>{{ text }}</span>

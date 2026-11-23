@@ -1,5 +1,8 @@
 <script setup>
 import { CounterComponent } from '@/components'
+import { useFormStore } from '@/stores/formStore';
+
+const formStore = useFormStore()
 </script>
 <template>
   <main>
@@ -8,19 +11,19 @@ import { CounterComponent } from '@/components'
     <div class="counters-container">
       <div class="line">
         <p>Hóspedes para pernoite</p>
-          <CounterComponent :min="1" />
+          <CounterComponent :min="1" v-model="formStore.formData.max_hospedes" />
       </div>
       <div class="line">
         <p>Quartos</p>
-          <CounterComponent />
+          <CounterComponent v-model="formStore.formData.qtd_quartos" />
       </div>
       <div class="line">
         <p>Camas</p>
-        <CounterComponent :min="1" />
+        <CounterComponent v-model="formStore.formData.qtd_camas" :min="1" />
       </div>
       <div class="line">
         <p>Banheiros</p>
-        <CounterComponent :min="1" />
+        <CounterComponent v-model="formStore.formData.qtd_banheiros" :min="1" />
       </div>
     </div>
   </main>

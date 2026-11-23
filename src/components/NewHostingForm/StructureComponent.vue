@@ -3,13 +3,13 @@ import { useFormStore } from '@/stores/formStore'
 import { CardStructureComponent } from '@/components';
 import { structureList } from './structureList';
 
-// const formStore = useFormStore()
+const formStore = useFormStore()
 </script>
 <template>
     <main>
         <h1>Qual das seguintes opções descreve melhor seu espaço?</h1>
         <div class="cards-container">
-            <CardStructureComponent v-for="i in structureList" :text="i" :key="i"/>
+            <CardStructureComponent v-for="i in structureList" :text="i" :key="i" v-model="formStore.formData.tipo_acomodacao"/>
         </div>
     </main>
 </template>

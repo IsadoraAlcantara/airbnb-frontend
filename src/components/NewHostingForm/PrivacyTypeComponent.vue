@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
-import CardPrivacyTypeComponent from './CardPrivacyTypeComponent.vue'
+import { useFormStore } from '@/stores/formStore'
+import { CardPrivacyTypeComponent } from '@/components'
 
-const selectedPrivacy = ref('inteiro')
+const formStore = useFormStore()
 </script>
 
 <template>
@@ -10,34 +10,36 @@ const selectedPrivacy = ref('inteiro')
     <h1 class="section-title">Que tipo de espaço você oferece aos hóspedes?</h1>
 
     <div class="cards-container">
-      <CardPrivacyTypeComponent 
+      <CardPrivacyTypeComponent
         url="Casa"
-        :selected="selectedPrivacy === 'inteiro'"
-        @click="selectedPrivacy = 'inteiro'"
+        :selected="formStore.formData.categoria_acomodacao === 'Espaço inteiro'"
+        @click="formStore.formData.categoria_acomodacao = 'Espaço inteiro'"
       >
         <template #title>Um espaço inteiro</template>
         <template #text>Os hóspedes têm o lugar todo só para eles.</template>
       </CardPrivacyTypeComponent>
 
-      <CardPrivacyTypeComponent 
+      <CardPrivacyTypeComponent
         url="Porta"
-        :selected="selectedPrivacy === 'quarto'"
-        @click="selectedPrivacy = 'quarto'"
+        :selected="formStore.formData.categoria_acomodacao === 'Quarto privativo'"
+        @click="formStore.formData.categoria_acomodacao = 'Quarto privativo'"
       >
         <template #title>Um quarto</template>
         <template #text>
-          Os hóspedes têm um quarto só para eles em uma acomodação, além de acesso a espaços compartilhados.
+          Os hóspedes têm um quarto só para eles em uma acomodação, além de acesso a espaços
+          compartilhados.
         </template>
       </CardPrivacyTypeComponent>
 
-      <CardPrivacyTypeComponent 
+      <CardPrivacyTypeComponent
         url="Cama"
-        :selected="selectedPrivacy === 'compartilhado'"
-        @click="selectedPrivacy = 'compartilhado'"
+        :selected="formStore.formData.categoria_acomodacao === 'Quarto compartilhado'"
+        @click="formStore.formData.categoria_acomodacao = 'Quarto compartilhado'"
       >
         <template #title>Quarto compartilhado em um albergue</template>
         <template #text>
-          Os hóspedes dormem em um quarto compartilhado em um albergue gerenciado profissionalmente com funcionários no local 24 horas.
+          Os hóspedes dormem em um quarto compartilhado em um albergue gerenciado profissionalmente
+          com funcionários no local 24 horas.
         </template>
       </CardPrivacyTypeComponent>
     </div>
