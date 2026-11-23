@@ -11,8 +11,6 @@ button {
   border: 1px solid #cacaca;
   border-radius: 8px;
   padding: 16px;
-  transition: 0.3ms ease-in;
-  transition: transform 0.15s ease;
 
   & img {
     width: 35px;

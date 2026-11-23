@@ -1,5 +1,8 @@
 <script setup>
+import { useFormStore } from '@/stores/formStore'
 import { CardStructureComponent } from '@/components';
+
+// const formStore = useFormStore()
 </script>
 <template>
     <main>

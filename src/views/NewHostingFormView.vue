@@ -1,9 +1,11 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useFormStore } from '@/stores/formStore'
 
 const route = useRoute()
 const router = useRouter()
+const formStore = useFormStore()
 
 const steps = ['structure', 'privacy-type', 'location', 'floor-plan', 'photos']
 
@@ -12,12 +14,16 @@ const currentStep = computed(() => {
   return index !== -1 ? index + 1 : 1
 })
 
+const handleNext = async () => {
+  await formStore.criaAcomodacaoVazia()
+}
+
 const nextStep = () => {
   const currentIndex = steps.indexOf(route.name)
   if (currentIndex < steps.length - 1) {
     router.push({ name: steps[currentIndex + 1] })
   }
-  console.log("next")
+  console.log('next')
 }
 
 const prevStep = () => {
@@ -46,7 +52,13 @@ const prevStep = () => {
     <progress :value="currentStep" max="10"></progress>
     <div class="buttons-container">
       <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
-      <button @click="nextStep">Avançar</button>
+      <button
+        @click="nextStep && formStore.criaAcomodacaoVazia ? currentStep == 1 : nextStep"
+        v-if="currentStep != 5"
+      >
+        Avançar
+      </button>
+      <button @click="formStore.publishHosting" v-if="currentStep == 5">Finalizar</button>
     </div>
   </footer>
 </template>

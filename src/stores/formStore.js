@@ -11,6 +11,7 @@ export const useFormStore = defineStore('formStore', () => {
 
     const { data } = await api.post(`/acomodacoes/`)
     draftId.value = data.id
+    console.log("criou acomodacao", data.id)
   }
 
   const uploadPhoto = async (file) => {
