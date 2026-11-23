@@ -14,16 +14,27 @@ const currentStep = computed(() => {
   return index !== -1 ? index + 1 : 1
 })
 
+onMounted(async () => {
+  if (route.params.id) {
+    formStore.draftId = route.params.id
+    await formStore.getDraft()
+  }
+})
+
 const handleNext = async () => {
-  await formStore.criaAcomodacaoVazia()
+  if (currentStep.value === 1 && !formStore.draftId) {
+    await formStore.createEmptyHosting()
+  }
+
+  nextStep()
 }
 
 const nextStep = () => {
   const currentIndex = steps.indexOf(route.name)
+  console.log('ID criado:', formStore.draftId)
   if (currentIndex < steps.length - 1) {
-    router.push({ name: steps[currentIndex + 1] })
+    router.push({ name: steps[currentIndex + 1], params: { id: formStore.draftId } })
   }
-  console.log('next')
 }
 
 const prevStep = () => {
@@ -36,28 +47,16 @@ const prevStep = () => {
 
 <template>
   <main>
-    <!-- Barra de Progresso Compartilhada -->
-    <header class="wizard-header">
-      <progress :value="currentStep" :max="steps.length"></progress>
-    </header>
-
-    <!-- O componente da etapa atual será renderizado aqui -->
-    <main class="wizard-content">
+    <div class="wizard-content">
       <router-view />
-    </main>
-
-    <!-- Rodapé de Navegação Global -->
+    </div>
   </main>
+
   <footer class="wizard-footer">
     <progress :value="currentStep" max="10"></progress>
     <div class="buttons-container">
       <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
-      <button
-        @click="nextStep && formStore.criaAcomodacaoVazia ? currentStep == 1 : nextStep"
-        v-if="currentStep != 5"
-      >
-        Avançar
-      </button>
+      <button @click="handleNext" v-if="currentStep != 5">Avançar</button>
       <button @click="formStore.publishHosting" v-if="currentStep == 5">Finalizar</button>
     </div>
   </footer>

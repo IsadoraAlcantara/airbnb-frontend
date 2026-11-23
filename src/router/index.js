@@ -17,7 +17,7 @@ const router = createRouter({
       meta: { layout: 'DefaultLayout' },
     },
     {
-      path: '/new-hosting-form',
+      path: '/new-hosting-form/:id?',
       name: 'new-hosting-form',
       component: () => import('../views/NewHostingFormView.vue'),
       meta: { layout: 'BlanckLayout' },

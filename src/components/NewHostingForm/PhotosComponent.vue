@@ -1,25 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { useFormStore } from '@/stores/formStore'
 
-const files = ref(null)
-const fileList = ref([])
+const formStore = useFormStore()
 
-const uploadImage = (e) => {
-  fileList.value.forEach((url) => URL.revokeObjectURL(url))
-  files.value = Array.from(e.target.files)
+const handleUploadImage = async (e) => {
+  const selectedFiles = Array.from(e.target.files)
+  if (!selectedFiles.length) return
 
-  for (const file of files.value) {
-    fileList.value.push(URL.createObjectURL(file))
+  for (const file of selectedFiles) {
+    await formStore.uploadPhoto(file)
   }
-}
-
-const remover = (e) => {
-  fileList.value.pop(e.target)
+  e.target.value = ''
 }
 </script>
 <template>
   <main>
-    <div v-if="fileList.length == 0">
+    <div v-if="formStore.images.length == 0">
       <h1>Adicione algumas fotos da sua acomodação</h1>
       <p class="sub-title">
         Você precisa de cinco fotos para começar. Você pode adicionar outra imagens ou fazer
@@ -28,22 +24,23 @@ const remover = (e) => {
       <div class="photo-input">
         <img src="../../assets/icons/camera-imagem.avif" alt="a" />
         <label for="file">Adicionar</label>
-        <input id="file" type="file" accept="image/*" multiple @change="uploadImage" />
+        <input id="file" type="file" accept="image/*" multiple @change="handleUploadImage" />
       </div>
     </div>
 
-    <div v-if="fileList.length > 0" class="preview-container">
+    <div v-if="formStore.images?.length > 0" class="preview-container">
       <div class="title">
         <h2>Escolha pelo menos 5 fotos</h2>
         <label for="file">
           <i class="mdi mdi-plus"></i>
         </label>
-        <input id="file" type="file" accept="image/*" multiple @change="uploadImage" />
+        <input id="file" type="file" accept="image/*" multiple @change="handleUploadImage" />
       </div>
+
       <div class="images-container">
-        <div v-for="a in fileList" :key="a">
-          <img :src="a" alt="preview" />
-          <button @click="remover">
+        <div v-for="photo in formStore.images" :key="photo.id">
+          <img :src="photo.imagem" alt="Foto acomodação" />
+          <button @click="formStore.deletePhoto(photo.id)">
             <i class="mdi mdi-trash-can-outline"></i>
           </button>
         </div>
@@ -51,7 +48,7 @@ const remover = (e) => {
           <i class="mdi mdi-plus"></i>
           <p>Adicionar mais</p>
         </label>
-        <input id="file" type="file" accept="image/*" multiple @change="uploadImage" />
+        <input id="file" type="file" accept="image/*" multiple @change="handleUploadImage" />
       </div>
     </div>
   </main>

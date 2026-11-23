@@ -8,7 +8,7 @@ import { CounterComponent } from '@/components'
     <div class="counters-container">
       <div class="line">
         <p>Hóspedes para pernoite</p>
-          <CounterComponent min="1" />
+          <CounterComponent :min="1" />
       </div>
       <div class="line">
         <p>Quartos</p>
@@ -16,11 +16,11 @@ import { CounterComponent } from '@/components'
       </div>
       <div class="line">
         <p>Camas</p>
-        <CounterComponent min="1" />
+        <CounterComponent :min="1" />
       </div>
       <div class="line">
         <p>Banheiros</p>
-        <CounterComponent min="1" />
+        <CounterComponent :min="1" />
       </div>
     </div>
   </main>
