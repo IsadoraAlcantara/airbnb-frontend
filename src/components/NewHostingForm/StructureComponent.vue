@@ -1,6 +1,7 @@
 <script setup>
 import { useFormStore } from '@/stores/formStore'
 import { CardStructureComponent } from '@/components';
+import { structureList } from './structureList';
 
 // const formStore = useFormStore()
 </script>
@@ -8,8 +9,7 @@ import { CardStructureComponent } from '@/components';
     <main>
         <h1>Qual das seguintes opções descreve melhor seu espaço?</h1>
         <div class="cards-container">
-            <CardStructureComponent class="focus" />
-            <CardStructureComponent v-for="n in 10" :key="n"/>
+            <CardStructureComponent v-for="i in structureList" :text="i" :key="i"/>
         </div>
     </main>
 </template>

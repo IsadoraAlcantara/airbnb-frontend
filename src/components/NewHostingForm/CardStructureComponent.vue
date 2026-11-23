@@ -1,36 +1,51 @@
+<script setup>
+defineProps({
+  text: {
+    type: String,
+    requires: true,
+  },
+})
+
+const getIconUrl = (text) => {
+  return new URL(`../../assets/icons/${text}.svg`, import.meta.url).href
+}
+</script>
 <template>
-  <button>
-    <img src="@/assets/icons/Casa.svg" alt="" />
-    <p>Casa</p>
-  </button>
+  <label class="card-option">
+    <input type="radio" name="tipo_espaco" :value="text" />
+    <div class="conteudo">
+      <img :src="getIconUrl(text)" alt="" />
+      <span>{{ text }}</span>
+    </div>
+  </label>
 </template>
 <style scoped>
-button {
-  background-color: transparent;
-  text-align: left;
-  border: 1px solid #cacaca;
-  border-radius: 8px;
-  padding: 16px;
-
-  & img {
-    width: 35px;
-  }
-
-  & p {
-    font-size: 16px;
-  }
+.card-option img {
+  width: 35px;
 }
 
-button:hover {
-  box-shadow: 0 0 0 2px #424242;
-  transition: 0.1s ease;
+.card-option input[type='radio'] {
+  display: none;
 }
 
-button:active {
-  transform: scale(0.97 );
+.card-option .conteudo {
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
 }
 
-.focus {
-  box-shadow: 0 0 0 2px #424242;
+.card-option .conteudo:hover {
+  border-color: #222222;
+}
+
+.card-option input[type='radio']:checked + .conteudo {
+  border: 2px solid #222222;
+  background-color: #f8f8f8;
+  padding: 19px;
 }
 </style>
