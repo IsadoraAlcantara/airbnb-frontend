@@ -1,44 +1,67 @@
 <script setup>
-import { CardPrivacyTypeComponent } from '@/components';
+import { ref } from 'vue'
+import CardPrivacyTypeComponent from './CardPrivacyTypeComponent.vue'
+
+const selectedPrivacy = ref('inteiro')
 </script>
+
 <template>
-    <main>
-        <h1>Que tipo de espaço você oferece aos hóspedes?</h1>
-        <div class="cards-container">
-            <CardPrivacyTypeComponent url="Casa" class="focus">
-                <template #title>Um espaço inteiro</template>
-                <template #text>Os hóspedes têm o lugar todo só para eles.</template>
-            </CardPrivacyTypeComponent>
-            <CardPrivacyTypeComponent url="Porta">
-                <template #title>Um quarto</template>
-                <template #text>Os hóspedes têm um quarto só para eles em uma acomodação, além de acesso a espaços
-                    compartilhados.</template>
-            </CardPrivacyTypeComponent>
-            <CardPrivacyTypeComponent url="Cama">
-                <template #title>Quarto compartilhado em um albergue</template>
-                <template #text>Os hóspedes dormem em um quarto compartilhado em um albergue gerenciado
-                    profissionalmente com funcionários no local 24 horas.</template>
-            </CardPrivacyTypeComponent>
-        </div>
-    </main>
+  <section class="privacy-section">
+    <h1 class="section-title">Que tipo de espaço você oferece aos hóspedes?</h1>
+
+    <div class="cards-container">
+      <CardPrivacyTypeComponent 
+        url="Casa"
+        :selected="selectedPrivacy === 'inteiro'"
+        @click="selectedPrivacy = 'inteiro'"
+      >
+        <template #title>Um espaço inteiro</template>
+        <template #text>Os hóspedes têm o lugar todo só para eles.</template>
+      </CardPrivacyTypeComponent>
+
+      <CardPrivacyTypeComponent 
+        url="Porta"
+        :selected="selectedPrivacy === 'quarto'"
+        @click="selectedPrivacy = 'quarto'"
+      >
+        <template #title>Um quarto</template>
+        <template #text>
+          Os hóspedes têm um quarto só para eles em uma acomodação, além de acesso a espaços compartilhados.
+        </template>
+      </CardPrivacyTypeComponent>
+
+      <CardPrivacyTypeComponent 
+        url="Cama"
+        :selected="selectedPrivacy === 'compartilhado'"
+        @click="selectedPrivacy = 'compartilhado'"
+      >
+        <template #title>Quarto compartilhado em um albergue</template>
+        <template #text>
+          Os hóspedes dormem em um quarto compartilhado em um albergue gerenciado profissionalmente com funcionários no local 24 horas.
+        </template>
+      </CardPrivacyTypeComponent>
+    </div>
+  </section>
 </template>
+
 <style scoped>
-main {
-    display: flex;
-    flex-direction: column;
+.privacy-section {
+  max-width: 630px;
+  margin: 0 auto;
 }
-h1 {
-    font-size: 30px;
-    font-weight: 600;
-    color: var(--black);
-    max-width: 640px;
-    margin: 35px 0;
+
+.section-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #222222;
+  margin-bottom: 32px;
+  line-height: 1.2;
+  margin: 35px 0;
 }
 
 .cards-container {
-    display: grid;
-    gap: 16px;
-    max-width: 640px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 </style>

@@ -3,62 +3,88 @@ defineProps({
   url: {
     type: String,
     required: true,
-  }
+  },
+  selected: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const getIconUrl = (url) => {
-  return new URL(`../../assets/icons/${url}.svg`, import.meta.url).href;
-};
-
+  return new URL(`../../assets/icons/${url}.svg`, import.meta.url).href
+}
 </script>
+
 <template>
-  <button>
-    <div>
-      <h2>
+  <button 
+    type="button" 
+    class="privacy-card" 
+    :class="{ selected }"
+  >
+    <div class="card-content">
+      <h2 class="card-title">
         <slot name="title"></slot>
       </h2>
-      <p>
+      <p class="card-text">
         <slot name="text"></slot>
       </p>
     </div>
-    <img :src="getIconUrl(url)" alt="" />
+    <img :src="getIconUrl(url)" alt="" class="card-icon" />
   </button>
 </template>
+
 <style scoped>
-button {
-  background-color: transparent;
-  text-align: left;
-  border: 1px solid #cacaca;
-  border-radius: 16px;
-  width: 100%;
-  padding: 26px;
+.privacy-card {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-
-  & img {
-    width: 40px;
-  }
-
-  & h2 {
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-
-  & p {
-    font-size: 16px;
-    font-size: 14px;
-    font-weight: 400;
-    color: #424242e1;
-    max-width: 75%;
-  }
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+  text-align: left;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-
-button:hover {
-  box-shadow: 0 0 0 2px #424242;
+.privacy-card:hover {
+  border-color: #222222;
 }
 
-.focus {
-  box-shadow: 0 0 0 2px #424242;
+.privacy-card.selected {
+  outline: 2px solid #222222;
+  outline-offset: -1px;
+  background-color: #f7f7f7;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 440px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.card-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: #717171;
+  line-height: 1.4;
+}
+
+.card-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
 }
 </style>
