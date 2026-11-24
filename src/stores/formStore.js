@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import api from '../api/axios'
+import router from '@/router'
 
 export const useFormStore = defineStore('formStore', () => {
   const draftId = ref(null)
@@ -32,21 +33,10 @@ export const useFormStore = defineStore('formStore', () => {
     draftId.value = data.id
   }
 
-  // const atualizarRascunho = async (dadosParciais = null) => {
-  //   if (!draftId.value) return
-
-  //   const payload = dadosParciais || formData.value
-
-  //   const { data } = await api.patch(`/acomodacoes/${draftId.value}/`, payload)
-
-  //   Object.assign(formData.value, data)
-  // }
-
   const salvarEtapa = async (camposDaEtapa) => {
-    fieldErrors.value = {} // Limpa erros anteriores
-
-    // Monta um objeto contendo só os campos desta tela
+    fieldErrors.value = {}
     const payload = {}
+
     camposDaEtapa.forEach((campo) => {
       payload[campo] = formData.value[campo]
     })
@@ -54,13 +44,13 @@ export const useFormStore = defineStore('formStore', () => {
     try {
       const { data } = await api.patch(`/acomodacoes/${draftId.value}/`, payload)
       Object.assign(formData.value, data)
-      return true // Sucesso: pode avançar!
+      return true
     } catch (error) {
       console.log('Erro capturado:', error.response?.status, error.response?.data)
       if (error.response?.status === 400) {
         fieldErrors.value = error.response.data
       }
-      return false // Bloqueia o avanço!
+      return false
     }
   }
 
@@ -84,10 +74,24 @@ export const useFormStore = defineStore('formStore', () => {
   }
 
   const publishHosting = async () => {
-    await api.patch(`/acomodacoes/${draftId.value}/`, { status: 'PUBLISHED' })
+    if (!draftId.value) return
 
-    draftId.value = null
-    images.value = []
+    try {
+      await api.patch(`/acomodacoes/${draftId.value}/`, {
+        status_hospedagem: 'PUBLISHED',
+      })
+
+      draftId.value = null
+      images.value = []
+      fieldErrors.value = {}
+
+      router.push('/admin-hosting')
+    } catch (error) {
+      if (error.response?.status === 400) {
+        fieldErrors.value = error.response.data
+      }
+      console.error('Erro ao publicar acomodação:', error)
+    }
   }
 
   const getDraft = async () => {
@@ -96,7 +100,6 @@ export const useFormStore = defineStore('formStore', () => {
     const { data } = await api.get(`/acomodacoes/${draftId.value}/`)
     images.value = data.imagens || []
 
-    // Preenche cada campo do formData com o que veio do banco
     Object.keys(formData.value).forEach((campo) => {
       if (data[campo] !== undefined) {
         formData.value[campo] = data[campo]
@@ -110,7 +113,6 @@ export const useFormStore = defineStore('formStore', () => {
     deletePhoto,
     publishHosting,
     getDraft,
-    // atualizarRascunho,
     salvarEtapa,
     draftId,
     images,

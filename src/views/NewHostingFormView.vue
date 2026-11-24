@@ -8,21 +8,14 @@ const router = useRouter()
 const formStore = useFormStore()
 
 const stepFieldsMap = {
-  'structure': ['tipo_acomodacao'],
+  structure: ['tipo_acomodacao'],
   'privacy-type': ['categoria_acomodacao'],
-  'location': [
-    'logradouro',
-    'numero_hospedagem',
-    'bairro',
-    'cidade',
-    'estado',
-    'cep',
-  ],
+  location: ['logradouro', 'numero_hospedagem', 'bairro', 'cidade', 'estado', 'cep'],
   'floor-plan': ['max_hospedes', 'qtd_quartos', 'qtd_banheiros', 'qtd_camas'],
-  'photos': ['imagens'],
-  'title': ['titulo_acomodacao'],
-  'description': ['descricao_acomodacao'],
-  'preco': ['valor_diaria'],
+  photos: ['imagens'],
+  title: ['titulo_acomodacao'],
+  description: ['descricao_acomodacao'],
+  preco: ['valor_diaria'],
 }
 
 const canAdvance = computed(() => {
@@ -37,7 +30,15 @@ const canAdvance = computed(() => {
   })
 })
 
-const steps = ['structure', 'privacy-type', 'location', 'floor-plan', 'photos', 'title', 'description']
+const steps = [
+  'structure',
+  'privacy-type',
+  'location',
+  'floor-plan',
+  'photos',
+  'title',
+  'description',
+]
 
 const currentStep = computed(() => {
   const index = steps.indexOf(route.name)
@@ -93,9 +94,14 @@ const prevStep = () => {
     <div class="buttons-container">
       <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
       <button :disabled="!canAdvance" @click="handleNext" v-if="currentStep != 7">Avançar</button>
-      <router-link @click="formStore.publishHosting" v-if="currentStep == 7" to="/admin-hosting"
-        >Finalizar</router-link
+      <button
+        v-if="currentStep == 7"
+        type="button"
+        class="btn-next"
+        @click="formStore.publishHosting"
       >
+        Finalizar
+      </button>
     </div>
   </footer>
 </template>
@@ -123,8 +129,7 @@ main {
     display: flex;
     justify-content: space-between;
 
-    & button:nth-child(2),
-    a {
+    & button:nth-child(2) {
       background-color: #262626;
       color: #f2f2f2;
     }
@@ -136,8 +141,7 @@ main {
     }
   }
 
-  & button,
-  a {
+  & button {
     text-decoration: none;
     margin: 10px 40px;
     padding: 12px 28px;
