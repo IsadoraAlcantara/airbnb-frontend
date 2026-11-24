@@ -5,6 +5,7 @@ import api from '../api/axios'
 export const useFormStore = defineStore('formStore', () => {
   const draftId = ref(null)
   const images = ref([])
+  const fieldErrors = ref({})
 
   const formData = ref({
     titulo_acomodacao: '',
@@ -31,17 +32,36 @@ export const useFormStore = defineStore('formStore', () => {
     draftId.value = data.id
   }
 
-  const atualizarRascunho = async (dadosParciais = null) => {
-    if (!draftId.value) return
+  // const atualizarRascunho = async (dadosParciais = null) => {
+  //   if (!draftId.value) return
 
-    // Se você passar um objeto específico (ex: só os campos do Passo 2), envia só ele;
-    // caso contrário, envia o formData completo.
-    const payload = dadosParciais || formData.value
+  //   const payload = dadosParciais || formData.value
 
-    const { data } = await api.patch(`/acomodacoes/${draftId.value}/`, payload)
+  //   const { data } = await api.patch(`/acomodacoes/${draftId.value}/`, payload)
 
-    // Sincroniza a store com o que o Django salvou
-    Object.assign(formData.value, data)
+  //   Object.assign(formData.value, data)
+  // }
+
+  const salvarEtapa = async (camposDaEtapa) => {
+    fieldErrors.value = {} // Limpa erros anteriores
+
+    // Monta um objeto contendo só os campos desta tela
+    const payload = {}
+    camposDaEtapa.forEach((campo) => {
+      payload[campo] = formData.value[campo]
+    })
+
+    try {
+      const { data } = await api.patch(`/acomodacoes/${draftId.value}/`, payload)
+      Object.assign(formData.value, data)
+      return true // Sucesso: pode avançar!
+    } catch (error) {
+      console.log('Erro capturado:', error.response?.status, error.response?.data)
+      if (error.response?.status === 400) {
+        fieldErrors.value = error.response.data
+      }
+      return false // Bloqueia o avanço!
+    }
   }
 
   const uploadPhoto = async (file) => {
@@ -90,9 +110,11 @@ export const useFormStore = defineStore('formStore', () => {
     deletePhoto,
     publishHosting,
     getDraft,
-    atualizarRascunho,
+    // atualizarRascunho,
+    salvarEtapa,
     draftId,
     images,
-    formData
+    formData,
+    fieldErrors,
   }
 })

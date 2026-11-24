@@ -7,7 +7,37 @@ const route = useRoute()
 const router = useRouter()
 const formStore = useFormStore()
 
-const steps = ['structure', 'privacy-type', 'location', 'floor-plan', 'photos']
+const stepFieldsMap = {
+  'structure': ['tipo_acomodacao'],
+  'privacy-type': ['categoria_acomodacao'],
+  'location': [
+    'logradouro',
+    'numero_hospedagem',
+    'bairro',
+    'cidade',
+    'estado',
+    'cep',
+  ],
+  'floor-plan': ['max_hospedes', 'qtd_quartos', 'qtd_banheiros', 'qtd_camas'],
+  'photos': ['imagens'],
+  'title': ['titulo_acomodacao'],
+  'description': ['descricao_acomodacao'],
+  'preco': ['valor_diaria'],
+}
+
+const canAdvance = computed(() => {
+  const campos = stepFieldsMap[route.name] || []
+
+  return campos.every((campo) => {
+    if (campo === 'imagens') {
+      return formStore.images.length > 4
+    }
+    const valor = formStore.formData[campo]
+    return valor !== null && valor !== undefined && String(valor).trim() !== ''
+  })
+})
+
+const steps = ['structure', 'privacy-type', 'location', 'floor-plan', 'photos', 'title', 'description']
 
 const currentStep = computed(() => {
   const index = steps.indexOf(route.name)
@@ -22,20 +52,24 @@ onMounted(async () => {
 })
 
 const handleNext = async () => {
-  if (currentStep.value === 1 && !formStore.draftId) {
+  if (!canAdvance.value) return
+
+  if (route.name === 'structure' && !formStore.draftId) {
     await formStore.createEmptyHosting()
-  } else {
-    await formStore.atualizarRascunho()
   }
 
-  nextStep()
-}
+  const camposDaEtapa = stepFieldsMap[route.name] || []
+  const isValid = await formStore.salvarEtapa(camposDaEtapa)
 
-const nextStep = () => {
-  const currentIndex = steps.indexOf(route.name)
-  console.log('ID criado:', formStore.draftId)
-  if (currentIndex < steps.length - 1) {
-    router.push({ name: steps[currentIndex + 1], params: { id: formStore.draftId } })
+  if (isValid) {
+    const steps = Object.keys(stepFieldsMap)
+    const currentIndex = steps.indexOf(route.name)
+    if (currentIndex < steps.length - 1) {
+      router.push({
+        name: steps[currentIndex + 1],
+        params: { id: formStore.draftId },
+      })
+    }
   }
 }
 
@@ -58,8 +92,10 @@ const prevStep = () => {
     <progress :value="currentStep" max="10"></progress>
     <div class="buttons-container">
       <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
-      <button @click="handleNext" v-if="currentStep != 5">Avançar</button>
-      <button @click="formStore.publishHosting" v-if="currentStep == 5">Finalizar</button>
+      <button :disabled="!canAdvance" @click="handleNext" v-if="currentStep != 7">Avançar</button>
+      <router-link @click="formStore.publishHosting" v-if="currentStep == 7" to="/admin-hosting"
+        >Finalizar</router-link
+      >
     </div>
   </footer>
 </template>
@@ -87,13 +123,22 @@ main {
     display: flex;
     justify-content: space-between;
 
-    & button:nth-child(2) {
+    & button:nth-child(2),
+    a {
       background-color: #262626;
       color: #f2f2f2;
     }
+
+    & button:nth-child(2):disabled {
+      background-color: #dddddd;
+      color: #ffffff;
+      cursor: not-allowed;
+    }
   }
 
-  & button {
+  & button,
+  a {
+    text-decoration: none;
     margin: 10px 40px;
     padding: 12px 28px;
     border: none;

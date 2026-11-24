@@ -12,32 +12,87 @@ const formStore = useFormStore()
     <div class="inputs-container">
       <p>
         <label for="endereco">Endereço</label>
-        <input id="endereco" type="text" v-model.number="formStore.formData.logradouro" placeholder="Digite o endereço" />
+        <input
+          id="endereco"
+          type="text"
+          v-model.number="formStore.formData.logradouro"
+          placeholder="Digite o endereço"
+        />
+        <span v-if="formStore.fieldErrors.logradouro" class="error-msg">
+          {{ formStore.fieldErrors.logradouro[0] }}
+        </span>
       </p>
       <p>
         <label for="numero">Número</label>
-        <input id="numero" type="text" v-model.number="formStore.formData.numero_hospedagem" placeholder="Digite o número da residência" />
+        <input
+          id="numero"
+          type="text"
+          v-model.number="formStore.formData.numero_hospedagem"
+          placeholder="Digite o número da residência"
+        />
+        <span v-if="formStore.fieldErrors.numero_hospedagem" class="error-msg">
+          {{ formStore.fieldErrors.numero_hospedagem[0] }}
+        </span>
       </p>
       <p>
         <label for="bairro">Bairro</label>
-        <input id="bairro" type="text" v-model.number="formStore.formData.bairro" placeholder="Digite o bairro" />
+        <input
+          id="bairro"
+          type="text"
+          v-model.number="formStore.formData.bairro"
+          placeholder="Digite o bairro"
+        />
+        <span v-if="formStore.fieldErrors.bairro" class="error-msg">
+          {{ formStore.fieldErrors.bairro[0] }}
+        </span>
       </p>
       <p>
         <label for="cidade">Cidade</label>
-        <input id="cidade" type="text" v-model.number="formStore.formData.cidade" placeholder="Digite a cidade" />
+        <input
+          id="cidade"
+          type="text"
+          v-model.number="formStore.formData.cidade"
+          placeholder="Digite a cidade"
+        />
+        <span v-if="formStore.fieldErrors.cidade" class="error-msg">
+          {{ formStore.fieldErrors.cidade[0] }}
+        </span>
       </p>
       <p>
         <label for="estado">Estado</label>
-        <input id="estado" type="text" v-model.number="formStore.formData.estado" placeholder="Digite o estado" />
+        <input
+          id="estado"
+          type="text"
+          v-model.number="formStore.formData.estado"
+          placeholder="Digite o estado"
+        />
+        <span v-if="formStore.fieldErrors.estado" class="error-msg">
+          {{ formStore.fieldErrors.estado[0] }}
+        </span>
       </p>
       <p>
         <label for="cep">CEP</label>
-        <input id="cep" type="text" v-model.number="formStore.formData.cep" placeholder="Digite o CEP" />
+        <input
+          id="cep"
+          type="text"
+          v-model.number="formStore.formData.cep"
+          placeholder="Digite o CEP"
+        />
+        <span v-if="formStore.fieldErrors.cep" class="error-msg">
+          {{ formStore.fieldErrors.cep[0] }}
+        </span>
       </p>
     </div>
   </main>
 </template>
 <style scoped>
+.error-msg {
+  color: #c13515;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
 main {
   width: 500px;
   text-align: left;
