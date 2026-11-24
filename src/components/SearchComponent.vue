@@ -1,9 +1,8 @@
-div
 <script setup>
 import { reactive, watch, computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { CounterComponent } from '@/components'
-import api from '@/api/axios'
+// import api from '@/api/axios'
 
 const router = useRouter()
 const route = useRoute()

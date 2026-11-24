@@ -1,8 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { CardHostingComponent, CounterComponent } from '@/components'
-import { getHosting } from '@/plugins/axios.js' // CENTRALIZAR A CONSULTA NA API
+import { CardHostingComponent } from '@/components'
 import api from '@/api/axios.js'
 
 const route = useRoute()
@@ -13,7 +12,9 @@ const fetchResults = async () => {
   loading.value = true
   try {
     // Passa os filtros da URL para a função centralizada da API
-    const data = await getHosting(route.query)
+    const { data } = await api.get('/acomodacoes/', {
+      params: route.query,
+    })
     hostingList.value = data.results ?? data
   } catch (error) {
     console.error('Erro ao buscar acomodações: ', error)
@@ -36,6 +37,7 @@ watch(() => route.query, fetchResults, { immediate: true, deep: true })
       :price="hosting.valor_diaria"
       :hosting-type="hosting.tipo_acomodacao"
       :localization="hosting.cidade"
+      :image="hosting.imagens?.[0]?.imagem ?? '/img/sem-foto.jpg'"
     />
   </div>
 </template>
