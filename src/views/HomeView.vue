@@ -1,35 +1,67 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useInfiniteScroll } from '@vueuse/core'
 import { CardHostingComponent } from '@/components'
 import api from '@/api/axios.js'
 
 const route = useRoute()
-const loading = ref(false)
+const isLoading = ref(false)
+const currentPage = ref(1)
 const hostingList = ref([])
+const hasMore = ref(true)
 
 const fetchResults = async () => {
-  loading.value = true
+  if (isLoading.value || !hasMore.value) return
+  isLoading.value = true
+
   try {
-    // Passa os filtros da URL para a função centralizada da API
     const { data } = await api.get('/acomodacoes/', {
-      params: route.query,
+      params: { ...route.query, page: currentPage.value },
     })
-    hostingList.value = data.results ?? data
+
+    hostingList.value = [...hostingList.value, ...(data.results ?? data)]
+    hasMore.value = data.page < data.total_pages
+    currentPage.value++
+
   } catch (error) {
     console.error('Erro ao buscar acomodações: ', error)
     hostingList.value = []
+
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
-watch(() => route.query, fetchResults, { immediate: true, deep: true })
+const { reset } = useInfiniteScroll(
+  window,
+  () => {
+    fetchResults()
+    console.log(hasMore.value)
+  },
+  {
+    distance: 200,
+    canLoadMore: () => hasMore.value && !isLoading.value, // Impede o scroll de disparar se acabou ou está carregando
+  }
+)
+
+watch(
+  () => route.query,
+  async () => {
+    hostingList.value = []
+    currentPage.value = 1
+    hasMore.value = true
+
+    await fetchResults()
+    reset() // Reavalia o scroll caso os novos resultados sejam poucos e não preencham a tela
+  },
+  { immediate: true, deep: true },
+)
 </script>
 
 <template>
   <p v-if="hostingList.length == 0">Sem resultados para essa busca</p>
-  <div class="cards-section">
+  <div class="cards-section" ref="containerScroll">
     <CardHostingComponent
       v-for="hosting in hostingList"
       :key="hosting.id"
@@ -47,7 +79,7 @@ watch(() => route.query, fetchResults, { immediate: true, deep: true })
   display: grid;
   width: 100%;
   box-sizing: border-box;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 15px;
   /* justify-items: center; */
 }
