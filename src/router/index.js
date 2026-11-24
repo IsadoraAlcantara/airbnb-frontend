@@ -48,7 +48,23 @@ const router = createRouter({
           name: 'photos',
           component: () => import('../components/NewHostingForm/PhotosComponent.vue'),
         },
+        {
+          path: 'title',
+          name: 'title',
+          component: () => import('../components/NewHostingForm/TitleComponent.vue'),
+        },
+        {
+          path: 'description',
+          name: 'description',
+          component: () => import('../components/NewHostingForm/DescriptionComponent.vue'),
+        },
       ],
+    },
+    {
+      path: '/admin-hosting',
+      name: 'admin-hosting',
+      component: () => import('../views/AdminHostingView.vue'),
+      meta: { layout: 'DefaultLayout' },
     },
     {
       path: '/login',
