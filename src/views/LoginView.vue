@@ -15,8 +15,18 @@ const showPassword = ref(false)
 const handleLogin = async () => {
   try {
     await authStore.login(username.value, password.value)
-    const destino = route.query.redirect || '/'
-    router.push(destino)
+    const redirectPath = route.query.redirect || '/'
+
+    if (redirectPath === '/new-hosting-form') {
+      if (authStore.user?.possui_anuncios) {
+        router.push({ name: 'admin-hosting' })
+      } else {
+        router.push({ name: 'structure' })
+      }
+      return
+    }
+
+    router.push(redirectPath)
   } catch (error) {
     errorMessage.value = 'Usuário ou senha inválidos.'
   }
@@ -42,7 +52,7 @@ const handleLogin = async () => {
             :class="showPassword ? 'mdi mdi-eye-outline' : 'mdi mdi-eye-off-outline'"
           ></i>
         </p>
-        <button type="submit">Entrar</button>
+        <button type="submit">Entrar</button> 
         <p>Não possui uma conta? <router-link to="/sign-up">Cadatre-se</router-link></p>
       </form>
     </div>
