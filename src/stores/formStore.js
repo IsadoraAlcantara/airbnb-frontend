@@ -79,6 +79,7 @@ export const useFormStore = defineStore('formStore', () => {
     try {
       await api.patch(`/acomodacoes/${draftId.value}/`, {
         status_hospedagem: 'PUBLISHED',
+        valor_diaria: formData.value.valor_diaria,
       })
 
       draftId.value = null

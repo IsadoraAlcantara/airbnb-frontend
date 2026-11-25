@@ -53,6 +53,7 @@
               Local da acomodação: {{ hosting.cidade }}, {{ hosting.estado }}
             </p>
           </div>
+          <span class="status-badge" v-if="hosting.status_hospedagem == 'DRAFT'">Em andamento</span>
         </router-link>
         <button @click="deletarAcomodacao(hosting.id)">
           <i class="mdi mdi-trash-can-outline"></i>

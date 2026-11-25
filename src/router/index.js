@@ -61,6 +61,11 @@ const router = createRouter({
           name: 'description',
           component: () => import('../components/NewHostingForm/DescriptionComponent.vue'),
         },
+        {
+          path: 'price',
+          name: 'price',
+          component: () => import('../components/NewHostingForm/PriceComponent.vue'),
+        },
       ],
     },
     {

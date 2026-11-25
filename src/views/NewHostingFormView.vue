@@ -15,7 +15,7 @@ const stepFieldsMap = {
   photos: ['imagens'],
   title: ['titulo_acomodacao'],
   description: ['descricao_acomodacao'],
-  preco: ['valor_diaria'],
+  price: ['valor_diaria'],
 }
 
 const canAdvance = computed(() => {
@@ -38,6 +38,7 @@ const steps = [
   'photos',
   'title',
   'description',
+  'price'
 ]
 
 const currentStep = computed(() => {
@@ -80,6 +81,13 @@ const prevStep = () => {
     router.push({ name: steps[currentIndex - 1] })
   }
 }
+
+const handlePublish = () => {
+  formStore.publishHosting  
+  router.push({
+    name: 'admin-hosting',
+  })
+}
 </script>
 
 <template>
@@ -90,15 +98,15 @@ const prevStep = () => {
   </main>
 
   <footer class="wizard-footer">
-    <progress :value="currentStep" max="10"></progress>
+    <progress :value="currentStep" max="8"></progress>
     <div class="buttons-container">
       <button @click="prevStep" :disabled="currentStep === 1">Voltar</button>
-      <button :disabled="!canAdvance" @click="handleNext" v-if="currentStep != 7">Avançar</button>
+      <button :disabled="!canAdvance" @click="handleNext" v-if="currentStep != 8">Avançar</button>
       <button
-        v-if="currentStep == 7"
+        v-if="currentStep == 8"
         type="button"
         class="btn-next"
-        @click="formStore.publishHosting"
+        @click="handlePublish"
       >
         Finalizar
       </button>
