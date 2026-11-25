@@ -32,16 +32,23 @@ const changeService = () => {
       name: 'login',
       query: { redirect: '/new-hosting-form' },
     })
+    return
+  }
+
+  if (authStore.user?.possui_anuncios) {
+    router.push({
+      name: 'admin-hosting',
+    })
   } else {
     router.push({
-      name: 'new-hosting-form',
+      name: 'structure',
     })
   }
 }
 </script>
 <template>
   <header>
-    <router-link to="/">
+    <router-link to="/" class="nav-left">
       <h1>
         <img
           src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/3840px-Airbnb_Logo_B%C3%A9lo.svg.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
@@ -49,7 +56,7 @@ const changeService = () => {
         />
       </h1>
     </router-link>
-    <SearchComponent />
+    <SearchComponent class="search-bar" />
     <div class="dropdown-auth-container">
       <button class="type-service" @click="changeService">Vou hospedar</button>
       <button @click="showDropdownAuth = !showDropdownAuth" ref="modalAuth">
@@ -69,15 +76,17 @@ header {
   box-shadow:
     rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: center;
   padding: 1rem;
-  display: flex;
-  justify-content: space-between;
+  grid-template-columns: 1fr auto 1fr;
   padding: 1rem 3rem;
   box-sizing: border-box;
   margin-bottom: 20px;
+}
+
+.nav-left {
+  justify-self: start;
 }
 
 img {
@@ -97,7 +106,12 @@ button {
   }
 }
 
+.search-bar {
+  justify-self: center;
+}
+
 .dropdown-auth-container {
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 16px;

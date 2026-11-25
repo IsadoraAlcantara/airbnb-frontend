@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useInfiniteScroll } from '@vueuse/core'
 import { CardHostingComponent } from '@/components'
@@ -37,11 +37,10 @@ const { reset } = useInfiniteScroll(
   window,
   () => {
     fetchResults()
-    console.log(hasMore.value)
   },
   {
     distance: 200,
-    canLoadMore: () => hasMore.value && !isLoading.value, // Impede o scroll de disparar se acabou ou está carregando
+    canLoadMore: () => hasMore.value && !isLoading.value,
   }
 )
 
@@ -53,7 +52,7 @@ watch(
     hasMore.value = true
 
     await fetchResults()
-    reset() // Reavalia o scroll caso os novos resultados sejam poucos e não preencham a tela
+    reset()
   },
   { immediate: true, deep: true },
 )

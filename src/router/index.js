@@ -21,8 +21,11 @@ const router = createRouter({
       name: 'new-hosting-form',
       component: () => import('../views/NewHostingFormView.vue'),
       meta: { layout: 'BlanckLayout' },
+      redirect: (to) => ({
+        name: 'structure',
+        params: to.params,
+      }),
       children: [
-        { path: '', redirect: { name: 'structure' } },
         {
           path: 'structure',
           name: 'structure',

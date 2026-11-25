@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import api from '../api/axios';
-import { computed } from 'vue';
+import { defineStore } from 'pinia'
+import api from '../api/axios'
+import { computed } from 'vue'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -16,48 +16,50 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(username, password) {
       try {
-        const response = await api.post('token/', { username, password });
+        const response = await api.post('token/', { username, password })
 
-        this.token = response.data.access;
-        this.refreshToken = response.data.refresh;
+        this.token = response.data.access
+        this.refreshToken = response.data.refresh
 
-        localStorage.setItem('access_token', this.token);
-        localStorage.setItem('refresh_token', this.refreshToken);
+        localStorage.setItem('access_token', this.token)
+        localStorage.setItem('refresh_token', this.refreshToken)
 
         // Opcional: Buscar dados do usuário logado imediatamente
-        await this.fetchUser();
+        await this.fetchUser()
       } catch (error) {
-        throw error;
+        throw error
       }
     },
 
     async fetchUser() {
-      if (!this.token) return;
+      if (!this.token) return
       try {
-        // Supondo uma rota de perfil protegida no Django
-        const response = await api.get('usuarios/me/');
-        this.user = response.data;
+        const response = await api.get('usuarios/me/')
+        this.user = response.data
       } catch (error) {
-        console.error('Erro ao buscar dados do usuário:', error);
+        console.error('Erro ao buscar dados do usuário:', error)
+        if (error.response?.status === 401) {
+          this.logout()
+        }
       }
     },
 
     logout() {
-      this.token = null;
-      this.refreshToken = null;
-      this.user = null;
+      this.token = null
+      this.refreshToken = null
+      this.user = null
 
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
     },
 
     setTokens(accessToken, refreshToken = null) {
-      this.token = accessToken;
-      localStorage.setItem('access_token', accessToken);
+      this.token = accessToken
+      localStorage.setItem('access_token', accessToken)
       if (refreshToken) {
-        this.refreshToken = refreshToken;
-        localStorage.setItem('refresh_token', refreshToken);
+        this.refreshToken = refreshToken
+        localStorage.setItem('refresh_token', refreshToken)
       }
     },
   },
-});
+})

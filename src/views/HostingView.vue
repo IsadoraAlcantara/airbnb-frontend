@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-// import api from '@/plugins/axios'
 import api from '@/api/axios'
 
 const props = defineProps({
@@ -63,7 +62,13 @@ const handleBooking = async () => {
       </div>
     </div>
     <div class="gallery">
-      <div class="img-box large-img">
+      <div class="img-box" v-for="image in hostingInfo.imagens" :key="image.id">
+        <img
+          :src="image.imagem"
+          alt="imagem acomodação"
+        />
+      </div>
+      <!-- <div class="img-box">
         <img
           src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
           alt=""
@@ -86,13 +91,7 @@ const handleBooking = async () => {
           src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
           alt=""
         />
-      </div>
-      <div class="img-box">
-        <img
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
-          alt=""
-        />
-      </div>
+      </div> -->
       <button>
         <i class="mdi mdi-dots-grid"></i>
         <p>Mostrar todas as fotos</p>
@@ -108,7 +107,7 @@ const handleBooking = async () => {
           </h3>
           <p>4 hóspedes - 2 quartos - 2 camas - 2 banheiros</p>
         </div>
-        <div class="guest-favorite-container">
+        <!-- <div class="guest-favorite-container">
           <div>
             <p class="guest-favorite-container-1p">Preferido dos hóspedes</p>
           </div>
@@ -126,7 +125,7 @@ const handleBooking = async () => {
             <p style="font-size: 22px">7</p>
             <p style="font-size: 12px">avaliações</p>
           </div>
-        </div>
+        </div> -->
         <div class="owner-info-container">
           <img
             src="https://img.magnific.com/fotos-gratis/mulher-de-tiro-medio-passando-bons-momentos-ao-ar-livre_23-2150757174.jpg?semt=ais_hybrid&w=740&q=80"
@@ -139,13 +138,9 @@ const handleBooking = async () => {
         </div>
         <div class="hosting-summary">
           <p>
-            Venha viver momentos inesquecíveis em Bombinhas! Com piscinas naturais, ideal para
-            mergulho de cilindro e snorkel, ótimas ondas para o surf, trilhas incríveis e uma
-            gastronomia de dar água na boca, esse paraíso é o destino perfeito. Hospede-se no
-            Bromélia 106 e aproveite todo o conforto e charme em um lugar especial. Descubra
-            Bombinhas e torne suas férias ainda mais memoráveis no Bromélia 106!
+            {{ hostingInfo.descricao_acomodacao }}
           </p>
-          <button>Mostrar mais</button>
+          <!-- <button>Mostrar mais</button> -->
         </div>
 
         <div class="bedroom-pictures-container">
@@ -167,39 +162,6 @@ const handleBooking = async () => {
               <h4>Quarto 2</h4>
               <p>1 cama queen</p>
             </div>
-          </div>
-        </div>
-
-        <div class="calendar">
-          <h3>Seleciona a data de check-in</h3>
-          <p>Estadia mínima: 2 noites</p>
-
-          <div>
-            <div>
-              <i class="mdi mdi-chevron-left"></i>
-              <p>outubro de 2026</p>
-              <i class="mdi mdi-chevron-right"></i>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>D</th>
-                  <th>S</th>
-                  <th>T</th>
-                  <th>Q</th>
-                  <th>Q</th>
-                  <th>S</th>
-                  <th>S</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="i in 6" :key="i">
-                  <th v-for="n in 7" :key="n">
-                    {{ i }}
-                  </th>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
@@ -298,7 +260,7 @@ section {
     box-sizing: border-box;
   }
 
-  & .large-img {
+  & .img-box:nth-child(1) {
     grid-column: 1/2;
     grid-row: 1/3;
   }
@@ -506,9 +468,5 @@ section {
       color: #393939;
     }
   }
-}
-
-.calendar {
-  margin: 48px 0;
 }
 </style>
