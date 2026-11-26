@@ -1,38 +1,121 @@
 <script setup>
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
+import api from "@/api/axios"
+
+const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
+
+const username = ref('')
+const usernameDisponivel = ref(null)
+const verificandoUsername = ref(false)
+
+const email = ref('')
+const password = ref('')
+const first_name = ref('')
+const errorMessage = ref('')
+
+const checarUsername = async () => {
+  const valor = username.value.trim()
+
+  if (!valor) {
+    usernameDisponivel.value = null
+    return
+  }
+
+  verificandoUsername.value = true
+  try {
+    const { data } = await api.get('usuarios/verificar-username/', {
+      params: { username: valor },
+    })
+    usernameDisponivel.value = data.disponivel
+  } catch (error) {
+    usernameDisponivel.value = null
+  } finally {
+    verificandoUsername.value = false
+  }
+}
+
+const handelSignUp = async () => {
+  try {
+    await authStore.signUp(username.value, password.value, email.value, first_name.value)
+    const redirectPath = route.query.redirect || '/'
+
+    if (redirectPath === '/new-hosting-form') {
+      if (authStore.user?.possui_anuncios) {
+        router.push({ name: 'admin-hosting' })
+      } else {
+        router.push({ name: 'structure' })
+      }
+      return
+    }
+
+    router.push(redirectPath)
+  } catch (error) {
+    errorMessage.value = 'Usuário ou senha inválidos.'
+  }
+}
 
 const showPassword = ref(false)
 </script>
 <template>
   <main>
     <div class="form-container">
-      <form action="#">
+      <form @submit.prevent="handelSignUp">
         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111320.png" alt="logo do airbnb" />
         <h1>Seja bem-vindo</h1>
         <p>
-          <input type="text" placeholder="Digite seu email" />
+          <input v-model="email" type="email" placeholder="Digite seu email" required />
         </p>
         <p class="password-input">
-          <input :type="showPassword ? 'text' : 'password'" placeholder="Digite sua senha" />
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Digite sua senha"
+            required
+          />
           <i
             @click="showPassword = !showPassword"
             :class="showPassword ? 'mdi mdi-eye-outline' : 'mdi mdi-eye-off-outline'"
+            required
           ></i>
         </p>
         <p>
-          <input type="text" placeholder="Digite seu username" />
+          <input
+            v-model="username"
+            type="text"
+            placeholder="Digite seu username"
+            @blur="checarUsername"
+            @input="usernameDisponivel = null"
+            required
+          />
+        </p>
+        <p v-if="usernameDisponivel === false" class="error-message">
+          Este nome de usuário já está em uso.
         </p>
         <p>
-          <input type="text" placeholder="Digite seu primeiro nome" />
+          <input v-model="first_name" type="text" placeholder="Digite seu primeiro nome" required />
         </p>
-        <button>Criar conta</button>
-        <p>Já possui uma conta? <router-link to="/login">Entre</router-link></p>
+        <button @click="handelSignUp">Criar conta</button>
+        <p class="bottom-bt-text">Já possui uma conta? <router-link to="/login">Entre</router-link></p>
       </form>
     </div>
     <div class="img-section"></div>
   </main>
 </template>
 <style scoped>
+.bottom-bt-text {
+  text-align: center;
+}
+
+.error-message {
+  color: red;  
+  font-size: 12px;
+  position: relative;
+}
+
 main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -45,9 +128,8 @@ main {
 
 .form-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  text-align: center;
+  
 }
 
 form p:last-child {

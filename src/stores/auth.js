@@ -14,6 +14,12 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
+    async signUp(username, password, email, first_name) {
+      await api.post('usuarios/cadastrar/', { username, password, email, first_name })
+
+      await this.login(username, password);
+    },
+
     async login(username, password) {
       try {
         const response = await api.post('token/', { username, password })
