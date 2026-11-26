@@ -27,7 +27,7 @@ api.interceptors.response.use(
 
       if (authStore.refreshToken) {
         try {
-          const { data } = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+          const { data } = await axios.post('${baseURL}token/refresh/', {
             refresh: authStore.refreshToken,
           });
           authStore.setTokens(data.access);
