@@ -5,13 +5,17 @@ import { useAuthStore } from '@/stores/auth'
 import api from '@/api/axios'
 import { BookingForm } from '@/components'
 
-defineProps({
+const props = defineProps({
   id: {
-    type: String,
+    type: [Number, String],
     required: true,
   },
 })
 
+onMounted(async () => {
+  const { data } = await api.get(`/acomodacoes/${props.id}/`)
+  hostingInfo.value = data
+})
 const hostingInfo = ref(null)
 </script>
 
