@@ -121,7 +121,7 @@ watch([showDateDropdown, showGuestsDropdown], ([newValueDate, newValueGuests]) =
           :columns="2"
           :min-date="new Date()"
           locale="pt-BR"
-          color="gray"
+          color="pink"
           borderless
         />
       </div>

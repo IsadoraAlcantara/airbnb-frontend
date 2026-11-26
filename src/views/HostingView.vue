@@ -1,49 +1,18 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import api from '@/api/axios'
+import { BookingForm } from '@/components'
 
-const props = defineProps({
+defineProps({
   id: {
     type: String,
     required: true,
   },
 })
 
-const route = useRoute()
-const router = useRouter()
-const authStore = useAuthStore()
-
 const hostingInfo = ref(null)
-const checkIn = ref('')
-const checkOut = ref('')
-
-onMounted(async () => {
-  const { data } = await api.get(`/acomodacoes/${props.id}/`)
-  hostingInfo.value = data
-})
-
-const handleBooking = async () => {
-  if (!authStore.isAuthenticated) {
-    router.push({
-      name: 'login',
-      query: { redirect: route.fullPath },
-    })
-    return
-  }
-
-  try {
-    await api.post('reservas/', {
-      acomodacao: props.id,
-      data_inicio: checkIn.value,
-      data_fim: checkOut.value,
-    })
-    alert('Reserva confirmada com sucesso!')
-  } catch (error) {
-    alert('Erro ao realizar reserva. Verifique as datas.')
-  }
-}
 </script>
 
 <template>
@@ -63,35 +32,8 @@ const handleBooking = async () => {
     </div>
     <div class="gallery">
       <div class="img-box" v-for="image in hostingInfo.imagens" :key="image.id">
-        <img
-          :src="image.imagem"
-          alt="imagem acomodação"
-        />
+        <img :src="image.imagem" alt="imagem acomodação" />
       </div>
-      <!-- <div class="img-box">
-        <img
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
-          alt=""
-        />
-      </div>
-      <div class="img-box">
-        <img
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
-          alt=""
-        />
-      </div>
-      <div class="img-box">
-        <img
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
-          alt=""
-        />
-      </div>
-      <div class="img-box">
-        <img
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-1398720997591862961/original/f1db5b7b-efb8-465e-8cdd-726b928cca69.jpeg?im_w=1200"
-          alt=""
-        />
-      </div> -->
       <button>
         <i class="mdi mdi-dots-grid"></i>
         <p>Mostrar todas as fotos</p>
@@ -105,9 +47,16 @@ const handleBooking = async () => {
             {{ hostingInfo.categoria_acomodacao }}: {{ hostingInfo.tipo_acomodacao }} em
             {{ hostingInfo.cidade }}, Brasil
           </h3>
-          <p>4 hóspedes - 2 quartos - 2 camas - 2 banheiros</p>
+          <p>
+            {{ hostingInfo.max_hospedes }}
+            {{ hostingInfo.max_hospedes === 1 ? 'hóspede' : 'hóspedes' }} -
+            {{ hostingInfo.qtd_quartos }}
+            {{ hostingInfo.qtd_quartos === 1 ? 'quarto' : 'quartos' }} - {{ hostingInfo.qtd_camas }}
+            {{ hostingInfo.qtd_camas === 1 ? 'cama' : 'camas' }} - {{ hostingInfo.qtd_banheiros }}
+            {{ hostingInfo.qtd_banheiros === 1 ? 'banheiro' : 'banheiros' }}
+          </p>
         </div>
-        <!-- <div class="guest-favorite-container">
+        <div class="guest-favorite-container">
           <div>
             <p class="guest-favorite-container-1p">Preferido dos hóspedes</p>
           </div>
@@ -125,7 +74,7 @@ const handleBooking = async () => {
             <p style="font-size: 22px">7</p>
             <p style="font-size: 12px">avaliações</p>
           </div>
-        </div> -->
+        </div>
         <div class="owner-info-container">
           <img
             src="https://img.magnific.com/fotos-gratis/mulher-de-tiro-medio-passando-bons-momentos-ao-ar-livre_23-2150757174.jpg?semt=ais_hybrid&w=740&q=80"
@@ -166,27 +115,7 @@ const handleBooking = async () => {
         </div>
       </div>
 
-      <form class="booking-box" @submit.prevent="handleBooking">
-        <h3>Adicione datas para ver os preços</h3>
-        <div class="inputs">
-          <div class="field checkin">
-            <label for="checkin">CHECKIN</label>
-            <input v-model="checkIn" type="date" id="checkin" placeholder="Adicionar data" required />
-          </div>
-          <div class="field checkout">
-            <label for="checkout">CHECKOUT</label>
-            <input v-model="checkOut" type="date" id="checkout" placeholder="Adicionar data" required />
-          </div>
-          <div class="field guests">
-            <label for="guests">HÓSPEDES</label>
-            <input type="text" id="guests" required />
-          </div>
-        </div>
-        <div class="button-container">
-          <button type="submit">Reservar</button>
-          <p>Você ainda não será cobrado</p>
-        </div>
-      </form>
+      <BookingForm :max-guests="hostingInfo.max_hospedes" :id="hostingInfo.id" :price="hostingInfo.valor_diaria" />
     </section>
   </main>
 </template>

@@ -4,6 +4,7 @@ import CardStructureComponent from './NewHostingForm/CardStructureComponent.vue'
 import CardPrivacyTypeComponent from './NewHostingForm/CardPrivacyTypeComponent.vue'
 import SearchComponent from './SearchComponent.vue'
 import CounterComponent from './CounterComponent.vue'
+import BookingForm from './BookingForm.vue'
 
 export {
   CardHostingComponent,
@@ -12,4 +13,5 @@ export {
   CardPrivacyTypeComponent,
   SearchComponent,
   CounterComponent,
+  BookingForm,
 }
